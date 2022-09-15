@@ -1,0 +1,22 @@
+<script setup lang="ts">
+import { cardSuitColorKeys, cardSuitKeys } from '@/lib/card/constants';
+import type { CardSuitColorKey, CardSuitKey } from '@/lib/card/types';
+import { computed } from '@vue/reactivity';
+
+const props = defineProps<{
+    suit: CardSuitKey,
+    color: CardSuitColorKey
+}>()
+
+const fillColor = computed(() => props.color === cardSuitColorKeys.RED ? 'red' : 'black')
+</script>
+
+<template>
+    <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px" viewBox="0 0 24 24">
+        <path v-if="suit === cardSuitKeys.CLUBS" :fill="fillColor" d="M16.6 9.5C16.8 8.9 17 8.2 17 7.5C17 4.5 14.8 2 12 2S7 4.5 7 7.5C7 8.2 7.1 8.9 7.4 9.5C4.9 9.6 3 11.4 3 13.8C3 16.3 5 18 7.5 18C7.5 18 10 18 11 17C11 17 11.3 19 9 22H15C12.7 19 13 17 13 17C14 18 16.5 18 16.5 18C19 18 21 16.3 21 13.8C21 11.4 19.1 9.6 16.6 9.5M16.5 16C16.5 16 14 16 13 15H11C10 16 7.5 16 7.5 16C6.3 16 5 15.3 5 13.8C5 12.5 6.1 11.5 7.5 11.5C7.8 11.5 8.3 11.6 8.8 11.7C8.9 11.7 9 11.8 9.1 11.8L10 10.1C9.8 9.9 9.7 9.7 9.6 9.5C9.2 8.9 9 8.3 9 7.5C9 5.6 10.3 4 12 4S15 5.6 15 7.5C15 8.3 14.8 9 14.4 9.6C14.3 9.8 14.2 9.9 14.1 10.1L15 11.8C15.1 11.8 15.2 11.7 15.3 11.7C15.7 11.6 16.2 11.5 16.6 11.5C18 11.5 19.1 12.5 19.1 13.8C19 15.3 17.7 16 16.5 16Z" />
+        <path v-else-if="suit === cardSuitKeys.DIAMONDS" :fill="color" d="M12 2L5 12L12 22L19 12M7.44 12L12 5.5L16.56 12L12 18.5" />
+        <path v-else-if="suit === cardSuitKeys.HEARTS" :fill="color" d="M12.1 18.55L12 18.65L11.89 18.55C7.14 14.24 4 11.39 4 8.5C4 6.5 5.5 5 7.5 5C9.04 5 10.54 6 11.07 7.36H12.93C13.46 6 14.96 5 16.5 5C18.5 5 20 6.5 20 8.5C20 11.39 16.86 14.24 12.1 18.55M16.5 3C14.76 3 13.09 3.81 12 5.08C10.91 3.81 9.24 3 7.5 3C4.42 3 2 5.41 2 8.5C2 12.27 5.4 15.36 10.55 20.03L12 21.35L13.45 20.03C18.6 15.36 22 12.27 22 8.5C22 5.41 19.58 3 16.5 3Z" />
+        <path v-else-if="suit === cardSuitKeys.SPADES" :fill="color" d="M11 17C11 17 11.3 19 9 22H15C12.7 19 13 17 13 17S14 18 16 18 20 16 20 14C20 9 15 7 12 2C9 7 4 9 4 14C4 16 6 18 8 18S11 17 11 17M13 14H11C11 14 10 16 8 16C7.1 16 6 14.9 6 14C5.8 11 9.9 8.2 12 5.4C14.1 8.1 18.2 10.9 18 14C18 14.9 16.9 16 16 16C14 16 13 14 13 14Z" />
+        <path v-else :fill="color" d="M11,18H13V16H11V18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6Z" />
+    </svg>
+</template>
