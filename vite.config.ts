@@ -8,7 +8,7 @@ import vueI18n from '@intlify/vite-plugin-vue-i18n'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: process.env.NODE_ENV === 'production'
-    ? '/esoteric-card' // prod
+    ? '/esoteric-card-vue/' // prod
     : '/', // dev
   plugins: [
     vue(),
