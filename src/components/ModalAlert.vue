@@ -11,7 +11,7 @@ const props = defineProps<{
     messageKey: string,
     messageParams?: unknown[],
     titleKey: string,
-    titleParams?: unknown[]
+    titleParams?: string[]
 }>()
 /* refs */
 const active = ref(true);

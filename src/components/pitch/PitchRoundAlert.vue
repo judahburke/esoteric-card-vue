@@ -77,7 +77,7 @@ const teamsWithScore = computed(() => {
 })
 
 function text(card: PitchCard) {
-    return t(textKeys.field_card_text, [t(card.rank.key), t(card.suit.key)]);
+    return t(card.rank.key) + ' ' + t(card.suit.key);
 }
 function returnValue(): boolean {
     active.value = false;

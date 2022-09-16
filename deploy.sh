@@ -22,7 +22,7 @@ git init
 
 git add -A
 
-git commit -m '$(date -u +%Y%m%d%H%M%S), deploy'
+git commit -m "`date -u +%Y%m%d%H%M%S`, deploy"
 
 git push -f git@github.com:judahburke/esoteric-card-vue.git master:gh-pages
 

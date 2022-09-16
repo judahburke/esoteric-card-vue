@@ -2,12 +2,12 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { DialogWrapper } from 'vue3-promise-dialog';
 import ModalLoading from './components/ModalLoading.vue';
+import Locale from './components/Locale.vue';
 </script>
 
 <template>
-  <section class="section">
-    <div class="container is-centered">
-      <div class="tabs is-small is-centered">
+  <div class="hero-head">
+    <div class="tabs is-small is-centered">
       <ul>
         <li>
           <RouterLink to="/">Home</RouterLink>
@@ -26,9 +26,8 @@ import ModalLoading from './components/ModalLoading.vue';
         </li>
       </ul>
     </div>
-    </div>
-  </section>
-  <section id="view" class="section">
+  </div>
+  <div class="hero-body">
     <div class="container">
       <div class="columns">
         <div class="column is-8-desktop is-offset-2-desktop">
@@ -38,7 +37,13 @@ import ModalLoading from './components/ModalLoading.vue';
         </div>
       </div>
     </div>
-  </section>
+  </div>
+  <div class="hero-foot">
+    <div class="level">
+      <div class="level-left">&copy;AnimatingStoat 2022</div>
+      <div class="level-right"><Locale /></div>
+    </div>
+  </div>
 
   <DialogWrapper :transition-attrs="{name: 'dialog'}"></DialogWrapper>
   <ModalLoading />
