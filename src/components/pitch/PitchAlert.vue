@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n';
 import { closeDialog } from 'vue3-promise-dialog';
 
-const { t } = useI18n();
+const { t } = useI18n({useScope: 'global'})
 
 const props = defineProps<{
     closeKey: string,

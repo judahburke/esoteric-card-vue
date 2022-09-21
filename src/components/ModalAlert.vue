@@ -4,7 +4,7 @@ import ModalCardVue from '@/components/ModalCard.vue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n()
+const { t } = useI18n({useScope: 'global'})
 
 /* props */
 const props = defineProps<{
@@ -25,7 +25,7 @@ function returnValue(): boolean {
     <ModalCardVue :active="active" :title-key="titleKey" :title-params="titleParams"
         @close="closeDialog(returnValue())">
         <template #default>
-            {{ messageParams ? t(messageKey, messageParams) : t(messageKey) }}
+            {{t(messageKey, messageParams ? messageParams : [])}}
         </template>
     </ModalCardVue>
 </template>

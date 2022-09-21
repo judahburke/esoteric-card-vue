@@ -9,7 +9,7 @@ import PitchHandWrapperVue from '@/components/pitch/PitchHandWrapper.vue'
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 
-const { t } = useI18n();
+const { t } = useI18n({useScope: 'global'})
 
 /* props */
 const props = defineProps<{

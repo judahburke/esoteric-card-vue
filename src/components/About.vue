@@ -5,9 +5,36 @@ import ToolingIcon from './icons/IconTooling.vue'
 import EcosystemIcon from './icons/IconEcosystem.vue'
 import CommunityIcon from './icons/IconCommunity.vue'
 import SupportIcon from './icons/IconSupport.vue'
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n({useScope: 'global'})
+const personString = ref('person')
+const personArray = ref(['person'])
 </script>
 
 <template>
+  <div>
+    <i18n-t keypath="message_trick_winner_for_name" tag="p" scope="global">
+      <template v-slot:name>
+        <span>{{ personString }}</span>
+      </template>
+    </i18n-t>
+    <i18n-t keypath="message_trick_winner_for_name" tag="p" scope="global">
+      <template v-slot:name>
+        <span>person</span>
+      </template>
+    </i18n-t>
+    <i18n-t keypath="message_trick_winner_for_name" tag="p" scope="global">
+      <template v-slot:name>person</template>
+    </i18n-t>
+    <p>{{t('message_trick_winner_for', personArray)}}</p>
+    <p>{{t('message_trick_winner_for', [personString])}}</p>
+    <p>{{t('message_trick_winner_for', ['person'])}}</p>
+    <p>{{t('message_trick_winner_for_name', {name: 'person'})}}</p>
+    <p>{{t('message_trick_winner_for_name', {name: personString})}}</p>
+    <p>{{t('message_trick_winner_for_name', {'name': 'person'})}}</p>
+    <p>{{t('message_trick_winner_for_name', {'name': personString})}}</p>
+  </div>
   <AboutItem>
     <template #icon>
       <DocumentationIcon />

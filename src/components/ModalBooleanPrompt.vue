@@ -9,7 +9,7 @@ const props = defineProps<{
     labelFalse: string,
     message:string,
     titleKey:string,
-    titleParams?:unknown[]
+    titleParams?:string[]
 }>()
 /* refs */
 const active = ref(true);

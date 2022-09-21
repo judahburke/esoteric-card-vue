@@ -1,5 +1,5 @@
 {
-  "name": "judahburke-vue",
+  "name": "esoteric-card-vue",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
@@ -15,9 +15,7 @@
   },
   "dependencies": {
     "@vue/cli-shared-utils": "^5.0.8",
-    "linked-list-typescript": "^1.0.15",
     "pinia": "^2.0.21",
-    "queue-typescript": "^1.0.1",
     "vue": "^3.2.38",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.1.5",

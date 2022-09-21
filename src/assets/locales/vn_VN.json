@@ -90,11 +90,33 @@
     "label_disabled": "Tàn tật",
     "message_greeting": "Chào mừng bạn đến với Esoteric Cards (Alpha)",
     "message_subgreeting": "Được xây dựng với VueJS, Vite, Typescript, Pinia, I18n, Bulma",
+    "message_turn": {
+        "pre": "Đến lượt cậu, ",
+        "post": ". Đóng cửa sổ này để xem thẻ của bạn"
+    },
     "message_turn_for": "Đến lượt cậu, {0}. Đóng cửa sổ này để xem thẻ của bạn",
+    "message_bid": {
+        "pre": "",
+        "post": ": bàn tay của bạn có giá trị gì?"
+    },
     "message_bid_for": "{0}: bàn tay của bạn có giá trị gì?",
+    "message_play": {
+        "pre": "",
+        "post": ": chọn một thẻ từ tay của bạn"
+    },
     "message_play_for": "{0}: chọn một thẻ từ tay của bạn",
+    "message_trick_winner": {
+        "pre": "Người chiến thắng trong thủ thuật này là ",
+        "post": "!"
+    },
+    "message_trick_winner_for_name": "Người chiến thắng trong thủ thuật này là {name}!",
     "message_trick_winner_for": "Người chiến thắng trong thủ thuật này là {0}!",
+    "message_winner": {
+        "pre": "Người chiến thắng là ",
+        "post": "!"
+    },
     "message_winner_for": "Người chiến thắng là {0}!",
+    "message_error": "Gặp phải lỗi này: ",
     "message_error_of": "Gặp phải lỗi này: {0}",
     "field_none": "(không ai)",
     "field_card_text": "{0} of {1}",

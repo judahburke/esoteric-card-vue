@@ -9,7 +9,7 @@ import ModalCardVue from "../ModalCard.vue";
 import { useI18n } from 'vue-i18n';
 import type { PitchOptions } from '@/lib/pitch/types';
 
-const { t } = useI18n();
+const { t } = useI18n({useScope: 'global'})
 
 const props = defineProps<{
     calculator: IPitchCalculator<PitchCardRank, PitchCardSuit, PitchCard, PitchTeam, PitchBidder>,

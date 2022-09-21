@@ -7,7 +7,7 @@ import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 
 /* locale */
-const { t } = useI18n();
+const { t } = useI18n({useScope: 'global'})
 /* store */
 const { showCards } = storeToRefs(usePitchStore())
 /* props */

@@ -90,11 +90,33 @@
     "label_disabled": "Disabled",
     "message_greeting": "Welcome to Esoteric Cards (Alpha Version)",
     "message_subgreeting": "built with VueJS, Vite, Typescript, Pinia, I18n and Bulma",
+    "message_turn": {
+        "pre": "It is your turn, ",
+        "post": ", close this window to see your cards and continue"
+    },
     "message_turn_for": "It is your turn, {0}, close this window to see your cards and continue",
+    "message_bid": {
+        "pre": "",
+        "post": ", what do you think your hand is worth?"
+    },
     "message_bid_for": "{0}, what do you think your hand is worth",
+    "message_play": {
+        "pre": "",
+        "post": ", pick a card from your hand"
+    },
     "message_play_for": "{0}, pick a card from your hand",
+    "message_trick_winner": {
+        "pre": "The winner of this trick is ",
+        "post": "!"
+    },
+    "message_trick_winner_for_name": "The winner of this trick is {name}!",
     "message_trick_winner_for": "The winner of this trick is {0}!",
+    "message_winner": {
+        "pre": "The winner is ",
+        "post": "!"
+    },
     "message_winner_for": "The winner is {0}!",
+    "message_error": "Encountered this error: ",
     "message_error_of": "Encountered this error: {0}",
     "field_none": "(none)",
     "field_card_text": "{0} of {1}",
