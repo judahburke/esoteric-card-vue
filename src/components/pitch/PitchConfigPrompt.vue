@@ -206,17 +206,19 @@ function returnValue(): boolean {
           {{ $t(messageKeys.pitch.subtitle_configuration_teams) }}
         </h3>
         <div
-          class="columns"
+          class="columns is-mobile"
           v-for="(team, index) in teamConfigs.filter((_, i) => i < teamCount)"
           :key="team.name"
         >
-          <input
-            class="input is-small"
-            id="state-table-team-name"
-            type="text"
-            :value="team.name"
-            @change="(event) => setTeamName(index, (event?.target as HTMLInputElement)?.value)"
-          />
+          <div class="column">
+            <input
+              class="input is-small"
+              id="state-table-team-name"
+              type="text"
+              :value="team.name"
+              @change="(event) => setTeamName(index, (event?.target as HTMLInputElement)?.value)"
+            />
+          </div>
         </div>
       </section>
       <section id="state-options" class="section box">
