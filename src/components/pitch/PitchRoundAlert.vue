@@ -87,7 +87,7 @@ const game = computed(() => {
       (t) => (teams += t.name + "|")
     );
     return {
-      team: teams.substring(0, teams.length - 2),
+      team: teams.substring(0, teams.length - 1),
       value: props.calculation.greatestGame.value,
     };
   } else {
