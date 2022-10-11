@@ -112,7 +112,7 @@
     "label_option_bid_5": "Bidders May Bid Five",
     "label_option_bid_all_skip": "Bidders May All Skip and Redeal",
     "label_option_play_trump_despite_lead": "Trump May be Played When Not Lead Suit",
-    "label_option_score_tied_game": "Game Point is Scored Multiple Players Tie for Game",
+    "label_option_score_tied_game": "Game Point is Scored When Multiple Players Tie for Game",
     "label_option_shuffle_count": "Shuffle Count",
     "label_option_cut_count_min": "Minimum Cut Count",
     "label_exit_configuration": "Exit Configuration",
