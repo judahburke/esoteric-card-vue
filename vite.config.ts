@@ -14,6 +14,7 @@ export default defineConfig({
   plugins: [
     vue(),
     vueI18n({
+      runtimeOnly: false,
       include: resolve(
         dirname(fileURLToPath(import.meta.url)),
         "./src/assets/locales/**"
