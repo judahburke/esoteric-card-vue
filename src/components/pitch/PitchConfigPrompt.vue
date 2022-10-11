@@ -223,7 +223,7 @@ function returnValue(): boolean {
         <h3 class="subtitle">
           {{ $t(messageKeys.pitch.subtitle_configuration_options) }}
         </h3>
-        <div class="tile is-parent is-12">
+        <!-- verbosity <div class="tile is-parent is-12">
           <div class="tile is-child is-6">
             <label>{{ $t(messageKeys.label_option_verbose) }}</label>
           </div>
@@ -240,7 +240,7 @@ function returnValue(): boolean {
               </select>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="tile is-parent is-12">
           <div class="tile is-child is-6">
             <label>{{ $t(messageKeys.label_option_winning_score) }}</label>
@@ -396,7 +396,7 @@ function returnValue(): boolean {
             </div>
           </div>
         </div>
-        <div class="tile is-parent is-12">
+        <!-- cut count <div class="tile is-parent is-12">
           <div class="tile is-child is-6">
             <label>{{ $t(messageKeys.label_option_cut_count_min) }}</label>
           </div>
@@ -413,7 +413,7 @@ function returnValue(): boolean {
               </select>
             </div>
           </div>
-        </div>
+        </div> -->
       </section>
     </template>
 
