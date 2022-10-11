@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AboutVue from '@/components/About.vue';
+import AboutVue from "@/components/AboutBody.vue";
 </script>
 
 <template>

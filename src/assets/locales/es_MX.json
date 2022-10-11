@@ -1,8 +1,30 @@
 {
-    "ARTIFICIAL": "Sintético",
-    "HUMAN": "Humano/Humana",
     "en_US": "English (U.S.)",
     "vn_VN": "Tiếng Việt (Việt Nam)",
     "es_MX": "Español (México)",
-    "de_DE": "Deutsch (Deutschland)"
+    "de_DE": "Deutsch (Deutschland)",
+    "home":{
+    },
+    "about":{
+    },
+    "card":{
+        "errors":{
+        }
+    },
+    "pitch":{
+        "errors":{
+        }
+    },
+    "solitaire":{
+        "errors":{
+        }
+    },
+    "spit":{
+        "errors":{
+        }
+    },
+    "label_artificial": "Sintético",
+    "label_human": "Humano/Humana",
+    "errors":{
+    }
 }

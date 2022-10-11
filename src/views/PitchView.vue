@@ -1,15 +1,14 @@
 <script setup lang="ts">
-  import type { Ref } from 'vue'
-  import { ref } from 'vue'
-  import PitchGameVue from '@/components/pitch/PitchGame.vue';
+import { ref } from "vue";
+import PitchGameVue from "@/components/pitch/PitchGame.vue";
 
-  const config = ref(true);
+const config = ref(true);
 </script>
 
 <template>
-    <div class="pitch">
-      <PitchGameVue v-model="config"></PitchGameVue>
-    </div>
+  <div class="pitch">
+    <PitchGameVue v-model="config"></PitchGameVue>
+  </div>
 </template>
 
 <style>

@@ -1,12 +1,5 @@
-type MoveOptions = {
+type MoveOptions = {};
 
-}
+type SolitaireOptions = {};
 
-type SolitaireOptions = {
-
-}
-
-export type {
-    MoveOptions,
-    SolitaireOptions,
-}
+export type { MoveOptions, SolitaireOptions };

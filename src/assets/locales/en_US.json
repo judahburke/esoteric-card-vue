@@ -1,4 +1,14 @@
 {
+    "de_DE": "Deutsch (Deutschland)",
+    "es_MX": "Español (México)",
+    "en_US": "English (U.S.)",
+    "vn_VN": "Tiếng Việt (Việt Nam)",
+    "home": {
+        "title": "Home"
+    },
+    "about": {
+        "title": "About"
+    },
     "card": {
         "ACE": "A",
         "KING": "K",
@@ -16,19 +26,24 @@
         "DEUCE": "2",
         "ONE": "1",
         "JOKER": "Joker",
-        "OLD MAID": "Old Maid",
+        "OLD_MAID": "Old Maid",
         "RED": "red",
         "BLACK": "black",
         "SPADES": "♠",
-        "SPADES.empty": "♤",
+        "SPADES_EMPTY": "♤",
         "HEARTS": "♥",
-        "HEARTS.empty": "♡",
+        "HEARTS_EMPTY": "♡",
         "CLUBS": "♣",
-        "CLUBS.empty": "♧",
+        "CLUBS_EMPTY": "♧",
         "DIAMONDS": "♦",
-        "DIAMONDS.empty": "♢",
-        "ARTIFICIAL": "Artificial",
-        "HUMAN": "Human"
+        "DIAMONDS_EMPTY": "♢",
+        "errors": {
+            "DECK_500_EMPTY": "Deck Error: Deck is empty!",
+            "CARD_404": "Card Error: Card not found!",
+            "TABLE_400_CUT": "Table Error: Invalid cut!",
+            "TABLE_404_NEXT": "Table Error: Next player not found!",
+            "TABLE_404_NEXT_DEALT": "Table Error: Next dealer not found!"
+        }
     },
     "pitch": {
         "title": "Pitch",
@@ -36,27 +51,59 @@
         "subtitle_configuration_bidders": "Configure Players / Bidders",
         "subtitle_configuration_teams": "Configure Teams",
         "subtitle_configuration_options": "Configure Options",
-        "message_summary": "Pitch (a.k.a Bidding Pitch, derived from Whist) is a lovely card game. Give it a try!"
+        "message_summary": "Pitch (a.k.a Bidding Pitch, derived from Whist) is a lovely card game. Give it a try!",
+        "errors": {
+            "BID_400_LESS_THAN_2": "Pitch Bidding Error: Cannot bid less than 2",
+            "BID_400_NOT_EXCEED_BID": "Pitch Bidding Error: Bid must exceed current bid",
+            "BID_400_EXCEED_4": "Pitch Bidding Error: Bid cannot exceed 4",
+            "BID_400_EXCEED_5": "Pitch Bidding Error: Bid cannot exceed 5",
+            "BID_400_NO_BID": "Pitch Bidding Error: Must bid!",
+            "BID_400_TOO_MANY_ATTEMPTS": "Pitch Bidding Error: Too many attempts!",
+            "PLAY_400_NOT_FOLLOWING_SUIT": "PLAY_400_NOT_FOLLOWING_SUIT",
+            "PLAY_400_NOT_IN_HAND": "PLAY_400_NOT_IN_HAND",
+            "PLAY_400_INVALID_CARD": "PLAY_400_INVALID_CARD",
+            "PLAY_400_TOO_MANY_ATTEMPTS": "PLAY_400_TOO_MANY_ATTEMPTS",
+            "PITCH_501": "PITCH_501",
+            "OPTIONS_400": "Pitch Options Error: bad request",
+            "BIDDER_404": "BIDDER_404",
+            "STATE_500_NO_TRUMP": "STATE_500_NO_TRUMP",
+            "STATE_500_NO_TRICK_WINNER": "STATE_500_NO_TRICK_WINNER",
+            "STATE_404_TEAM": "STATE_404_TEAM",
+            "STATE_404_BIDDER": "STATE_404_BIDDER",
+            "CALC_500_EXTRA_JACK": "CALC_500_EXTRA_JACK",
+            "TRICK_500_NO_WINNER": "TRICK_500_NO_WINNER"
+        }
     },
     "solitaire": {
         "title": "Solitaire",
         "message_description": "Solitaire is not yet ready to be played...",
         "message_waitdescription": "For now, play it by yourself another way...",
-        "message_summary": "(WIP) Everyone knows this game. I may or may not actually develop it..."
+        "message_summary": "(WIP) Everyone knows this game. I may or may not actually develop it...",
+        "errors": {
+            "OPTIONS_400": "Options Error: bad request"
+        }
     },
     "spit": {
         "title": "Spit",
         "message_description": "Spit is not yet ready to be played...",
         "message_waitdescription": "For now, have sweet dreams of spitting out cards faster than your opponents can salivate...",
-        "message_summary": "(WIP) Spit is a fast-paced card game similar to Slap Jack but a bit more complex. Stay tuned!"
+        "message_summary": "(WIP) Spit is a fast-paced card game similar to Slap Jack but a bit more complex. Stay tuned!",
+        "errors": {
+            "OPTIONS_400": "Options Error: bad request"
+        }
     },
     "title_game_over": "Game Over",
     "title_round_over": "Round Over",
     "title_trick_over": "Trick Over",
     "title_turn_for": "{0}: Your Turn",
     "title_error": "Error Encountered",
+    "title_home": "Home",
+    "title_about": "About",
+    "label_copyright": "© AnimatedStoat 2022",
     "label_pitch": "Pitch",
     "label_solitaire": "Solitaire",
+    "label_artificial": "Artificial",
+    "label_human": "Human",
     "label_locale": "Locale",
     "label_option_verbose": "Verbosity",
     "label_option_winning_score": "Winning Score",
@@ -90,39 +137,18 @@
     "label_disabled": "Disabled",
     "message_greeting": "Welcome to Esoteric Cards (Alpha Version)",
     "message_subgreeting": "built with VueJS, Vite, Typescript, Pinia, I18n and Bulma",
-    "message_turn": {
-        "pre": "It is your turn, ",
-        "post": ", close this window to see your cards and continue"
-    },
     "message_turn_for": "It is your turn, {0}, close this window to see your cards and continue",
-    "message_bid": {
-        "pre": "",
-        "post": ", what do you think your hand is worth?"
-    },
     "message_bid_for": "{0}, what do you think your hand is worth",
-    "message_play": {
-        "pre": "",
-        "post": ", pick a card from your hand"
-    },
     "message_play_for": "{0}, pick a card from your hand",
-    "message_trick_winner": {
-        "pre": "The winner of this trick is ",
-        "post": "!"
-    },
     "message_trick_winner_for_name": "The winner of this trick is {name}!",
     "message_trick_winner_for": "The winner of this trick is {0}!",
-    "message_winner": {
-        "pre": "The winner is ",
-        "post": "!"
-    },
     "message_winner_for": "The winner is {0}!",
     "message_error": "Encountered this error: ",
     "message_error_of": "Encountered this error: {0}",
     "field_none": "(none)",
     "field_card_text": "{0} of {1}",
     "field_card_char": "{1}{0}",
-    "en_US": "English (U.S.)",
-    "vn_VN": "Tiếng Việt (Việt Nam)",
-    "es_MX": "Español (México)",
-    "de_DE": "Deutsch (Deutschland)"
+    "errors": {
+        "ENUM_501": "Not Implemented: {0}"
+    }
 }
