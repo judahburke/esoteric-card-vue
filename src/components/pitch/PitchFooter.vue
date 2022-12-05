@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { messageKeys } from "@/lib/constants";
+import { tKeys } from "@/lib/constants";
 
 const emit = defineEmits(["play", "config", "exit"]);
 </script>
@@ -7,13 +7,13 @@ const emit = defineEmits(["play", "config", "exit"]);
 <template>
   <div class="level is-mobile" id="pitch-messages">
     <button class="level-item button" @click="emit('play')">
-      {{ $t(messageKeys.label_play) }}
+      {{ $t(tKeys.label_play) }}
     </button>
     <button class="level-item button" @click="emit('config')">
-      {{ $t(messageKeys.label_configure) }}
+      {{ $t(tKeys.label_configure) }}
     </button>
     <button class="level-item button" @click="emit('exit')">
-      {{ $t(messageKeys.label_exit) }}
+      {{ $t(tKeys.label_exit) }}
     </button>
     <!-- <LocaleVue class="level-item select" /> -->
   </div>

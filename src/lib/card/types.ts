@@ -11,8 +11,4 @@ type ShuffleOptions = {
   shuffleCount: number;
 };
 
-export type {
-  CutOptions,
-  DealOptions,
-  ShuffleOptions,
-};
+export type { CutOptions, DealOptions, ShuffleOptions };

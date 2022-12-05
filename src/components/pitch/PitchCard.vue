@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { messageKeys } from "@/lib/constants";
+import { tKeys } from "@/lib/constants";
 import type { PitchCard } from "@/lib/pitch/classes";
 import IconSuitSolid from "../icons/IconSuitSolid.vue";
 
 /* props */
-const props = defineProps<{
+defineProps<{
   card: PitchCard;
   show: boolean;
 }>();
@@ -22,7 +22,7 @@ const props = defineProps<{
     ]"
   >
     <span v-if="show" class="playing-card-face is-nw">{{
-      $t(messageKeys.mapCardRank(card.rank.key))
+      $t(tKeys.mapCardRank(card.rank.key))
     }}</span>
     <span v-if="show" class="playing-card-face is-ne"
       ><IconSuitSolid :suit="card.suit.key" :color="card.suit.colorKey"
@@ -31,7 +31,7 @@ const props = defineProps<{
       ><IconSuitSolid :suit="card.suit.key" :color="card.suit.colorKey"
     /></span>
     <span v-if="show" class="playing-card-face is-se">{{
-      $t(messageKeys.mapCardRank(card.rank.key))
+      $t(tKeys.mapCardRank(card.rank.key))
     }}</span>
   </div>
 </template>

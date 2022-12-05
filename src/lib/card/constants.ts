@@ -1,8 +1,4 @@
-import type {
-  CutOptions,
-  DealOptions,
-  ShuffleOptions,
-} from "./types";
+import type { CutOptions, DealOptions, ShuffleOptions } from "./types";
 
 const defaultCutOptions: CutOptions = {
   cutMinimum: 1,
@@ -17,8 +13,4 @@ const defaultShuffleOptions: ShuffleOptions = {
   shuffleCount: 1,
 };
 
-export {
-  defaultCutOptions,
-  defaultDealOptions,
-  defaultShuffleOptions,
-};
+export { defaultCutOptions, defaultDealOptions, defaultShuffleOptions };

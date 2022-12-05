@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { messageKeys } from "@/lib/constants";
+import { tKeys } from "@/lib/constants";
 import { usePitchStore } from "@/stores/pitch";
 import ModalCardVue from "@/components/ModalCard.vue";
 import { closeDialog } from "vue3-promise-dialog";
@@ -14,21 +14,21 @@ const {
   validBidderCounts,
   validTeamCounts,
   validShuffleCounts,
-  validCutCounts,
+  // validCutCounts,
   validIntelligences,
   validWinningScores,
 } = storeToRefs(store);
 /* ref */
 const active = ref(true);
 /* computed */
-const isVerbosityEnabled = computed({
-  get() {
-    return currentState.value.options.verbose;
-  },
-  set(val) {
-    store.setOptionVerbosity(val);
-  },
-});
+// const isVerbosityEnabled = computed({
+//   get() {
+//     return currentState.value.options.verbose;
+//   },
+//   set(val) {
+//     store.setOptionVerbosity(val);
+//   },
+// });
 const winningScore = computed({
   get() {
     return currentState.value.options.winningScore;
@@ -109,14 +109,14 @@ const shuffleCount = computed({
     store.setOptionShuffleCount(val);
   },
 });
-const cutMinimum = computed({
-  get() {
-    return currentState.value.options.cut.cutMinimum;
-  },
-  set(val) {
-    store.setOptionCutMin(val);
-  },
-});
+// const cutMinimum = computed({
+//   get() {
+//     return currentState.value.options.cut.cutMinimum;
+//   },
+//   set(val) {
+//     store.setOptionCutMin(val);
+//   },
+// });
 /* methods */
 function setTeamName(i: number, name: string) {
   if (i < teamConfigs.value.length) {
@@ -136,9 +136,9 @@ function setBidderIntelligence(i: number, intelligence: PitchIntelligence) {
 function getIntelligenceKey(intelligence: PitchIntelligence): string {
   switch (intelligence) {
     case PitchIntelligence.ARTIFICIAL:
-      return messageKeys.label_artificial;
+      return tKeys.label_artificial;
     case PitchIntelligence.HUMAN:
-      return messageKeys.label_human;
+      return tKeys.label_human;
   }
 }
 function exit() {
@@ -151,8 +151,8 @@ function returnValue(): boolean {
 
 <template>
   <ModalCardVue
-    :title-key="messageKeys.pitch.title_configuration"
-    :active="true"
+    :title-key="tKeys.pitch.title_configuration"
+    :active="active"
     @close="exit"
   >
     <template #default>
@@ -161,7 +161,7 @@ function returnValue(): boolean {
         :class="bidderCount > 0 ? 'section box' : 'is-hidden'"
       >
         <h3 class="subtitle">
-          {{ $t(messageKeys.pitch.subtitle_configuration_bidders) }}
+          {{ $t(tKeys.pitch.subtitle_configuration_bidders) }}
         </h3>
         <div
           class="columns is-mobile"
@@ -190,6 +190,7 @@ function returnValue(): boolean {
                   v-for="o in validIntelligences"
                   :selected="o === bidder.intelligence"
                   :value="o"
+                  :key="o"
                 >
                   {{ $t(getIntelligenceKey(o)) }}
                 </option>
@@ -203,7 +204,7 @@ function returnValue(): boolean {
         :class="teamCount > 0 ? 'section box' : 'is-hidden'"
       >
         <h3 class="subtitle">
-          {{ $t(messageKeys.pitch.subtitle_configuration_teams) }}
+          {{ $t(tKeys.pitch.subtitle_configuration_teams) }}
         </h3>
         <div
           class="columns is-mobile"
@@ -223,11 +224,11 @@ function returnValue(): boolean {
       </section>
       <section id="state-options" class="section box">
         <h3 class="subtitle">
-          {{ $t(messageKeys.pitch.subtitle_configuration_options) }}
+          {{ $t(tKeys.pitch.subtitle_configuration_options) }}
         </h3>
         <!-- verbosity <div class="tile is-parent is-12">
           <div class="tile is-child is-6">
-            <label>{{ $t(messageKeys.label_option_verbose) }}</label>
+            <label>{{ $t(tKeys.label_option_verbose) }}</label>
           </div>
           <div class="tile is-child container">
             <div class="select is-small">
@@ -236,8 +237,9 @@ function returnValue(): boolean {
                   v-for="o in [true, false]"
                   :selected="o === isVerbosityEnabled"
                   :value="o"
+                  :key="o"
                 >
-                  {{ $t(o ? messageKeys.label_enabled : messageKeys.label_disabled) }}
+                  {{ $t(o ? tKeys.label_enabled : tKeys.label_disabled) }}
                 </option>
               </select>
             </div>
@@ -245,7 +247,7 @@ function returnValue(): boolean {
         </div> -->
         <div class="tile is-parent is-12">
           <div class="tile is-child is-6">
-            <label>{{ $t(messageKeys.label_option_winning_score) }}</label>
+            <label>{{ $t(tKeys.label_option_winning_score) }}</label>
           </div>
           <div class="tile is-child container">
             <div class="select is-small">
@@ -254,6 +256,7 @@ function returnValue(): boolean {
                   v-for="o in validWinningScores"
                   :selected="o === winningScore"
                   :value="o"
+                  :key="o"
                 >
                   {{ o }}
                 </option>
@@ -263,7 +266,7 @@ function returnValue(): boolean {
         </div>
         <div class="tile is-parent is-12">
           <div class="tile is-child is-6">
-            <label>{{ $t(messageKeys.label_option_player_count) }}</label>
+            <label>{{ $t(tKeys.label_option_player_count) }}</label>
           </div>
           <div class="tile is-child container">
             <div class="select is-small">
@@ -272,6 +275,7 @@ function returnValue(): boolean {
                   v-for="o in validBidderCounts"
                   :selected="o === bidderCount"
                   :value="o"
+                  :key="o"
                 >
                   {{ o }}
                 </option>
@@ -281,7 +285,7 @@ function returnValue(): boolean {
         </div>
         <div class="tile is-parent is-12">
           <div class="tile is-child is-6">
-            <label>{{ $t(messageKeys.label_option_team_count) }}</label>
+            <label>{{ $t(tKeys.label_option_team_count) }}</label>
           </div>
           <div class="tile is-child container">
             <div class="select is-small">
@@ -290,6 +294,7 @@ function returnValue(): boolean {
                   v-for="o in validTeamCounts"
                   :selected="o === teamCount"
                   :value="o"
+                  :key="o"
                 >
                   {{ o }}
                 </option>
@@ -299,7 +304,7 @@ function returnValue(): boolean {
         </div>
         <div class="tile is-parent is-12">
           <div class="tile is-child is-6">
-            <label>{{ $t(messageKeys.label_option_bid_5) }}</label>
+            <label>{{ $t(tKeys.label_option_bid_5) }}</label>
           </div>
           <div class="tile is-child container">
             <div class="select is-small">
@@ -308,8 +313,9 @@ function returnValue(): boolean {
                   v-for="o in [true, false]"
                   :selected="o === isBidFiveEnabled"
                   :value="o"
+                  :key="o.toString()"
                 >
-                  {{ $t(o ? messageKeys.label_enabled : messageKeys.label_disabled) }}
+                  {{ $t(o ? tKeys.label_enabled : tKeys.label_disabled) }}
                 </option>
               </select>
             </div>
@@ -317,7 +323,7 @@ function returnValue(): boolean {
         </div>
         <div class="tile is-parent is-12">
           <div class="tile is-child is-6">
-            <label>{{ $t(messageKeys.label_option_bid_all_skip) }}</label>
+            <label>{{ $t(tKeys.label_option_bid_all_skip) }}</label>
           </div>
           <div class="tile is-child container">
             <div class="select is-small">
@@ -329,8 +335,9 @@ function returnValue(): boolean {
                   v-for="o in [true, false]"
                   :selected="o === isBidNoneEnabled"
                   :value="o"
+                  :key="o.toString()"
                 >
-                  {{ $t(o ? messageKeys.label_enabled : messageKeys.label_disabled) }}
+                  {{ $t(o ? tKeys.label_enabled : tKeys.label_disabled) }}
                 </option>
               </select>
             </div>
@@ -338,9 +345,7 @@ function returnValue(): boolean {
         </div>
         <div class="tile is-parent is-12">
           <div class="tile is-child is-6">
-            <label>{{
-              $t(messageKeys.label_option_play_trump_despite_lead)
-            }}</label>
+            <label>{{ $t(tKeys.label_option_play_trump_despite_lead) }}</label>
           </div>
           <div class="tile is-child container">
             <div class="select is-small">
@@ -352,8 +357,9 @@ function returnValue(): boolean {
                   v-for="o in [true, false]"
                   :selected="o === isAllowTrumpAlwaysEnabled"
                   :value="o"
+                  :key="o.toString()"
                 >
-                  {{ $t(o ? messageKeys.label_enabled : messageKeys.label_disabled) }}
+                  {{ $t(o ? tKeys.label_enabled : tKeys.label_disabled) }}
                 </option>
               </select>
             </div>
@@ -361,7 +367,7 @@ function returnValue(): boolean {
         </div>
         <div class="tile is-parent is-12">
           <div class="tile is-child is-6">
-            <label>{{ $t(messageKeys.label_option_score_tied_game) }}</label>
+            <label>{{ $t(tKeys.label_option_score_tied_game) }}</label>
           </div>
           <div class="tile is-child">
             <div class="select is-small">
@@ -373,8 +379,9 @@ function returnValue(): boolean {
                   v-for="o in [true, false]"
                   :selected="o === isScoreTiedGamePointsEnabled"
                   :value="o"
+                  :key="o.toString()"
                 >
-                  {{ $t(o ? messageKeys.label_enabled : messageKeys.label_disabled) }}
+                  {{ $t(o ? tKeys.label_enabled : tKeys.label_disabled) }}
                 </option>
               </select>
             </div>
@@ -382,7 +389,7 @@ function returnValue(): boolean {
         </div>
         <div class="tile is-parent is-12">
           <div class="tile is-child is-6">
-            <label>{{ $t(messageKeys.label_option_shuffle_count) }}</label>
+            <label>{{ $t(tKeys.label_option_shuffle_count) }}</label>
           </div>
           <div class="tile is-child container">
             <div class="select is-small">
@@ -391,6 +398,7 @@ function returnValue(): boolean {
                   v-for="o in validShuffleCounts"
                   :selected="o === shuffleCount"
                   :value="o"
+                  :key="o"
                 >
                   {{ o }}
                 </option>
@@ -400,7 +408,7 @@ function returnValue(): boolean {
         </div>
         <!-- cut count <div class="tile is-parent is-12">
           <div class="tile is-child is-6">
-            <label>{{ $t(messageKeys.label_option_cut_count_min) }}</label>
+            <label>{{ $t(tKeys.label_option_cut_count_min) }}</label>
           </div>
           <div class="tile is-child container">
             <div class="select is-small">
@@ -409,6 +417,7 @@ function returnValue(): boolean {
                   v-for="o in validCutCounts"
                   :selected="o === cutMinimum"
                   :value="o"
+                  :key="o"
                 >
                   {{ o }}
                 </option>
@@ -421,7 +430,7 @@ function returnValue(): boolean {
 
     <template #footer>
       <button class="button" type="submit" @click="exit">
-        {{ $t(messageKeys.label_exit_configuration) }}
+        {{ $t(tKeys.label_exit_configuration) }}
       </button>
     </template>
   </ModalCardVue>

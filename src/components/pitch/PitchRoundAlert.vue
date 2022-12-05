@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { messageKeys } from "@/lib/constants";
+import { tKeys } from "@/lib/constants";
 import type {
   PitchCardRank,
   PitchCardSuit,
@@ -47,7 +47,10 @@ const bid = computed(() => {
       value: props.calculation.greatestBid.value.toString(),
     };
   } else {
-    return { team: t(messageKeys.field_none), value: t(messageKeys.field_none) };
+    return {
+      team: t(tKeys.field_none),
+      value: t(tKeys.field_none),
+    };
   }
 });
 const high = computed(() => {
@@ -57,7 +60,10 @@ const high = computed(() => {
       value: text(props.calculation.highestTrump.value),
     };
   } else {
-    return { team: t(messageKeys.field_none), value: t(messageKeys.field_none) };
+    return {
+      team: t(tKeys.field_none),
+      value: t(tKeys.field_none),
+    };
   }
 });
 const low = computed(() => {
@@ -67,7 +73,10 @@ const low = computed(() => {
       value: text(props.calculation.lowestTrump.value),
     };
   } else {
-    return { team: t(messageKeys.field_none), value: t(messageKeys.field_none) };
+    return {
+      team: t(tKeys.field_none),
+      value: t(tKeys.field_none),
+    };
   }
 });
 const jack = computed(() => {
@@ -77,7 +86,10 @@ const jack = computed(() => {
       value: text(props.calculation.jackiestTrump.value),
     };
   } else {
-    return { team: t(messageKeys.field_none), value: t(messageKeys.field_none) };
+    return {
+      team: t(tKeys.field_none),
+      value: t(tKeys.field_none),
+    };
   }
 });
 const game = computed(() => {
@@ -91,7 +103,10 @@ const game = computed(() => {
       value: props.calculation.greatestGame.value,
     };
   } else {
-    return { team: t(messageKeys.field_none), value: t(messageKeys.field_none) };
+    return {
+      team: t(tKeys.field_none),
+      value: t(tKeys.field_none),
+    };
   }
 });
 const teamsWithScore = computed(() => {
@@ -127,7 +142,11 @@ const teamsWithScore = computed(() => {
 });
 
 function text(card: PitchCard) {
-  return t(messageKeys.mapCardRank(card.rank.key)) + " " + t(messageKeys.mapCardSuit(card.suit.key));
+  return (
+    t(tKeys.mapCardRank(card.rank.key)) +
+    " " +
+    t(tKeys.mapCardSuit(card.suit.key))
+  );
 }
 function returnValue(): boolean {
   active.value = false;
@@ -137,7 +156,7 @@ function returnValue(): boolean {
 
 <template>
   <ModalCardVue
-    :title-key="messageKeys.title_round_over"
+    :title-key="tKeys.title_round_over"
     :active="active"
     @close="closeDialog(returnValue())"
   >
@@ -146,16 +165,16 @@ function returnValue(): boolean {
         <thead>
           <tr>
             <th></th>
-            <th>{{ t(messageKeys.label_bid) }}</th>
-            <th>{{ t(messageKeys.label_high) }}</th>
-            <th>{{ t(messageKeys.label_low) }}</th>
-            <th>{{ t(messageKeys.label_jack) }}</th>
-            <th>{{ t(messageKeys.label_game) }}</th>
+            <th>{{ t(tKeys.label_bid) }}</th>
+            <th>{{ t(tKeys.label_high) }}</th>
+            <th>{{ t(tKeys.label_low) }}</th>
+            <th>{{ t(tKeys.label_jack) }}</th>
+            <th>{{ t(tKeys.label_game) }}</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th>{{ t(messageKeys.label_value) }}</th>
+            <th>{{ t(tKeys.label_value) }}</th>
             <td>{{ bid.value }}</td>
             <td>{{ high.value }}</td>
             <td>{{ low.value }}</td>
@@ -163,7 +182,7 @@ function returnValue(): boolean {
             <td>{{ game.value }}</td>
           </tr>
           <tr>
-            <th>{{ t(messageKeys.label_team) }}</th>
+            <th>{{ t(tKeys.label_team) }}</th>
             <td>{{ bid.team }}</td>
             <td>{{ high.team }}</td>
             <td>{{ low.team }}</td>
@@ -176,13 +195,15 @@ function returnValue(): boolean {
         <thead>
           <tr>
             <th></th>
-            <th v-for="team in teamsWithScore">{{ team.name }}</th>
+            <th v-for="team in teamsWithScore" :key="team.id">
+              {{ team.name }}
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th>{{ t(messageKeys.label_netscore) }}</th>
-            <td v-for="team in teamsWithScore">
+            <th>{{ t(tKeys.label_netscore) }}</th>
+            <td v-for="team in teamsWithScore" :key="team.id">
               {{ calculator.net(calculator.score(team, calculation, options)) }}
             </td>
           </tr>

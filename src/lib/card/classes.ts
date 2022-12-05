@@ -1,13 +1,13 @@
-import { messageKeys } from "../constants";
 import {
   defaultCutOptions,
   defaultDealOptions,
   defaultShuffleOptions,
 } from "./constants";
-import type {
+import {
   CardRankKey,
   CardSuitKey,
   CardSuitColorKey,
+  CardErrorKey,
 } from "./enums";
 import type {
   ICardRank,
@@ -19,11 +19,16 @@ import type {
   ITable,
   IPlayer,
 } from "./interfaces";
-import type {
-  CutOptions,
-  ShuffleOptions,
-  DealOptions,
-} from "./types";
+import type { CutOptions, ShuffleOptions, DealOptions } from "./types";
+
+class CardError extends Error {
+  constructor(key: CardErrorKey) {
+    super(key.toString());
+    this.name = "CardError";
+    this.errorKey = key;
+  }
+  public readonly errorKey: CardErrorKey;
+}
 
 class StandardCard
   implements ICard<StandardCardRank, StandardCardSuit, StandardCard>
@@ -96,7 +101,7 @@ abstract class GenericDeck<
       options = defaultCutOptions;
     }
     if (options.cutMinimum > this._stack.length) {
-      throw new Error(messageKeys.card.errors.TABLE_400_CUT);
+      throw new CardError(CardErrorKey.TABLE_400_CUT);
     }
     if (!topLength) {
       const min = Math.min(
@@ -113,7 +118,7 @@ abstract class GenericDeck<
       topLength < options.cutMinimum ||
       topLength > this._stack.length - options.cutMinimum
     ) {
-      throw new Error(messageKeys.card.errors.TABLE_400_CUT);
+      throw new CardError(CardErrorKey.TABLE_400_CUT);
     }
 
     const top = this._stack.slice(0, topLength);
@@ -234,7 +239,7 @@ abstract class GenericTable<Player extends IPlayer<Player>>
     );
     const i = this._seats.findIndex((p) => p.compare(player) === 0);
     if (i < 0) {
-      throw new Error(messageKeys.card.errors.TABLE_404_NEXT);
+      throw new CardError(CardErrorKey.TABLE_404_NEXT);
     }
     this._currentDealer = i;
     console.debug(
@@ -251,9 +256,9 @@ abstract class GenericTable<Player extends IPlayer<Player>>
     );
     const i = this._seats.findIndex((p) => p.compare(player) === 0);
     if (i < 0) {
-      throw new Error(messageKeys.card.errors.TABLE_404_NEXT);
+      throw new CardError(CardErrorKey.TABLE_404_NEXT);
     }
-    this._currentDealer = this.fix(i - 1);
+    this._currentDealer = this._options.isDealerFirst ? i : this.fix(i - 1);
     console.debug(
       "[card] GenericTable.setNextLeader (post)",
       this._currentDealer,
@@ -291,6 +296,7 @@ abstract class GenericTable<Player extends IPlayer<Player>>
 class StandardTable extends GenericTable<StandardPlayer> {}
 
 export {
+  CardError,
   StandardCard,
   StandardCardRank,
   StandardCardSuit,

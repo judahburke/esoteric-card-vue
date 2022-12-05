@@ -1,14 +1,6 @@
-import type {
-  CardRankKey,
-  CardSuitKey,
-  CardSuitColorKey,
-} from "./enums";
+import type { CardRankKey, CardSuitKey, CardSuitColorKey } from "./enums";
 
-import type {
-  CutOptions,
-  DealOptions,
-  ShuffleOptions,
-} from "./types";
+import type { CutOptions, DealOptions, ShuffleOptions } from "./types";
 
 interface IStateVersioned<TState> {
   recordState(): TState;
@@ -22,14 +14,12 @@ interface IComparable<T extends IComparable<T>> {
 interface ICardRank<T extends IComparable<T>> extends IComparable<T> {
   readonly key: CardRankKey;
   readonly value: number;
-  //compareTo(other: ICardRank): number,
 }
 
 interface ICardSuit<T extends IComparable<T>> extends IComparable<T> {
   readonly key: CardSuitKey;
   readonly colorKey: CardSuitColorKey;
   readonly value: number;
-  //compareTo(other: ICardSuit): number,
 }
 
 interface ICard<
@@ -39,7 +29,6 @@ interface ICard<
 > extends IComparable<T> {
   readonly suit: S;
   readonly rank: R;
-  //compareTo(other: ICard<R,S>): number,
 }
 
 interface ICardFactory<

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { messageKeys } from "@/lib/constants";
+import { tKeys } from "@/lib/constants";
 import { usePitchStore } from "@/stores/pitch";
 import { storeToRefs } from "pinia";
 import { computed, ref } from "vue";
@@ -25,17 +25,21 @@ const bidText = computed(() => {
         <thead>
           <tr>
             <th>
-              {{ $t(messageKeys.label_team) }}
+              {{ $t(tKeys.label_team) }}
               <!-- todo radio for showing scores per round-->
             </th>
-            <td v-for="team in table.teams">{{ team.name }}</td>
+            <td v-for="team in table.teams" :key="team.id">{{ team.name }}</td>
           </tr>
         </thead>
-        <!-- todo scores per round -->
+        <tbody v-if="!hideScoresPerRound">
+          <!-- todo scores per round -->
+        </tbody>
         <tfoot>
           <tr>
-            <th>{{ $t(messageKeys.label_total) }}</th>
-            <td v-for="team in table.teams">{{ currentScore(team) }}</td>
+            <th>{{ $t(tKeys.label_total) }}</th>
+            <td v-for="team in table.teams" :key="team.id">
+              {{ currentScore(team) }}
+            </td>
           </tr>
         </tfoot>
       </table>
@@ -44,9 +48,9 @@ const bidText = computed(() => {
       <table id="pitch-scoreboard-round-table" class="table">
         <thead>
           <tr>
-            <th>{{ $t(messageKeys.label_trump) }}</th>
-            <th>{{ $t(messageKeys.label_bid) }}</th>
-            <th>{{ $t(messageKeys.label_round) }}</th>
+            <th>{{ $t(tKeys.label_trump) }}</th>
+            <th>{{ $t(tKeys.label_bid) }}</th>
+            <th>{{ $t(tKeys.label_round) }}</th>
           </tr>
         </thead>
         <tbody>

@@ -4,7 +4,7 @@ import ModalCardVue from "@/components/ModalCard.vue";
 import { ref } from "vue";
 
 /* props */
-const props = defineProps<{
+defineProps<{
   labelTrue: string;
   labelFalse: string;
   message: string;
@@ -24,7 +24,7 @@ function returnValue(): boolean {
     :active="active"
     :title-key="titleKey"
     :title-params="titleParams"
-    @close="closeDialog(false)"
+    @close="closeDialog(returnValue)"
   >
     <template #default>
       {{ message }}

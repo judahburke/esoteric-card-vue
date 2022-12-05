@@ -1,126 +1,68 @@
 <script setup lang="ts">
-import AboutItem from "./AboutItem.vue";
-import DocumentationIcon from "./icons/IconDocumentation.vue";
-import ToolingIcon from "./icons/IconTooling.vue";
-import EcosystemIcon from "./icons/IconEcosystem.vue";
-import CommunityIcon from "./icons/IconCommunity.vue";
-import SupportIcon from "./icons/IconSupport.vue";
+import AboutItem from "@/components/AboutItem.vue";
+//import DocumentationIcon from "@/components/icons/IconDocumentation.vue";
+import ToolingIcon from "@/components/icons/IconTooling.vue";
+//import EcosystemIcon from "@/components/icons/IconEcosystem.vue";
+//import CommunityIcon from "@/components/icons/IconCommunity.vue";
+//import SupportIcon from "@/components/icons/IconSupport.vue";
 import { ref } from "vue";
-import { useI18n } from "vue-i18n";
-const { t } = useI18n({ useScope: "global" });
-const personString = ref("person");
-const personArray = ref(["person"]);
+const urlVueJs = ref("https://vuejs.org");
+const urlTS = ref("https://www.typescriptlang.org/");
+const urlPinia = ref("https://pinia.vuejs.org/");
+const urlVueRouter = ref("https://test-utils.vuejs.org/");
+const urlI18n = ref("https://vue-i18n.intlify.dev/");
+const urlBulma = ref("https://bulma.io");
+const urlVite = ref("https://vitejs.dev/guide/features.html");
+const urlVueTest = ref("https://github.com/vuejs/devtools");
+const urlCypress = ref("https://www.cypress.io/");
+const urlVueDevTools = ref("https://github.com/vuejs/devtools");
+const urlSource = ref("https://github.com/judahburke/esoteric-card-vue");
 </script>
 
 <template>
   <AboutItem>
     <template #icon>
-      <DocumentationIcon />
-    </template>
-    <template #heading>Documentation</template>
-
-    Vue’s
-    <a href="https://vuejs.org/" target="_blank" rel="noopener"
-      >official documentation</a
-    >
-    provides you with all information you need to get started.
-  </AboutItem>
-
-  <AboutItem>
-    <template #icon>
       <ToolingIcon />
     </template>
-    <template #heading>Tooling</template>
+    <template #heading>{{ $t("about.title_tools") }}</template>
 
-    This project is served and bundled with
-    <a
-      href="https://vitejs.dev/guide/features.html"
-      target="_blank"
-      rel="noopener"
-      >Vite</a
-    >. The recommended IDE setup is
-    <a href="https://code.visualstudio.com/" target="_blank" rel="noopener"
-      >VSCode</a
-    >
-    +
-    <a
-      href="https://github.com/johnsoncodehk/volar"
-      target="_blank"
-      rel="noopener"
-      >Volar</a
-    >. If you need to test your components and web pages, check out
-    <a href="https://www.cypress.io/" target="_blank" rel="noopener">Cypress</a>
-    and
-    <a href="https://on.cypress.io/component" target="_blank"
-      >Cypress Component Testing</a
-    >.
+    <i18n-t keypath="about.message_tools" tag="p">
+      <template v-slot:urlVueJs>
+        <a :href="urlVueJs">{{ $t("about.link.vuejs") }}</a>
+      </template>
+      <template v-slot:urlTS>
+        <a :ref="urlTS">{{ $t("about.link.ts") }}</a>
+      </template>
+      <template v-slot:urlPinia>
+        <a :href="urlPinia">{{ $t("about.link.pinia") }}</a>
+      </template>
+      <template v-slot:urlVueRouter>
+        <a :href="urlVueRouter">{{ $t("about.link.vueRouter") }}</a>
+      </template>
+      <template v-slot:urlI18n>
+        <a :href="urlI18n">{{ $t("about.link.i18n") }}</a>
+      </template>
+      <template v-slot:urlBulma>
+        <a :ref="urlBulma">{{ $t("about.link.bulma") }}</a>
+      </template>
+    </i18n-t>
 
-    <br />
-
-    More instructions are available in <code>README.md</code>.
-  </AboutItem>
-
-  <AboutItem>
-    <template #icon>
-      <EcosystemIcon />
-    </template>
-    <template #heading>Ecosystem</template>
-
-    Get official tools and libraries for your project:
-    <a href="https://pinia.vuejs.org/" target="_blank" rel="noopener">Pinia</a>,
-    <a href="https://router.vuejs.org/" target="_blank" rel="noopener"
-      >Vue Router</a
-    >,
-    <a href="https://test-utils.vuejs.org/" target="_blank" rel="noopener"
-      >Vue Test Utils</a
-    >, and
-    <a href="https://github.com/vuejs/devtools" target="_blank" rel="noopener"
-      >Vue Dev Tools</a
-    >. If you need more resources, we suggest paying
-    <a
-      href="https://github.com/vuejs/awesome-vue"
-      target="_blank"
-      rel="noopener"
-      >Awesome Vue</a
-    >
-    a visit.
-  </AboutItem>
-
-  <AboutItem>
-    <template #icon>
-      <CommunityIcon />
-    </template>
-    <template #heading>Community</template>
-
-    Got stuck? Ask your question on
-    <a href="https://chat.vuejs.org" target="_blank" rel="noopener">Vue Land</a
-    >, our official Discord server, or
-    <a
-      href="https://stackoverflow.com/questions/tagged/vue.js"
-      target="_blank"
-      rel="noopener"
-      >StackOverflow</a
-    >. You should also subscribe to
-    <a href="https://news.vuejs.org" target="_blank" rel="noopener"
-      >our mailing list</a
-    >
-    and follow the official
-    <a href="https://twitter.com/vuejs" target="_blank" rel="noopener"
-      >@vuejs</a
-    >
-    twitter account for latest news in the Vue world.
-  </AboutItem>
-
-  <AboutItem>
-    <template #icon>
-      <SupportIcon />
-    </template>
-    <template #heading>Support Vue</template>
-
-    As an independent project, Vue relies on community backing for its
-    sustainability. You can help us by
-    <a href="https://vuejs.org/sponsor/" target="_blank" rel="noopener"
-      >becoming a sponsor</a
-    >.
+    <i18n-t keypath="about.message_dev_tools" tag="p">
+      <template v-slot:urlVite>
+        <a :href="urlVite">{{ $t("about.link.vite") }}</a>
+      </template>
+      <template v-slot:urlVueTest>
+        <a :href="urlVueTest">{{ $t("about.link.vueTest") }}</a>
+      </template>
+      <template v-slot:urlCypress>
+        <a :href="urlCypress">{{ $t("about.link.cypress") }}</a>
+      </template>
+      <template v-slot:urlVueDevTools>
+        <a :href="urlVueDevTools">{{ $t("about.link.vueDevTools") }}</a>
+      </template>
+      <template v-slot:urlSource>
+        <a :href="urlSource">{{ $t("about.link.source") }}</a>
+      </template>
+    </i18n-t>
   </AboutItem>
 </template>

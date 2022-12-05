@@ -4,7 +4,7 @@ import ModalCardVue from "@/components/ModalCard.vue";
 import { ref } from "vue";
 
 /* props */
-const props = defineProps<{
+defineProps<{
   messageKey: string;
   messageParams?: unknown[];
   titleKey: string;

@@ -1,10 +1,8 @@
+import type { PitchOptions } from "./types";
 import type {
-  PitchOptions,
-} from "./types";
-import type {
-PitchBidValidation,
+  PitchBidValidation,
   PitchIntelligence,
-PitchPlayValidation,
+  PitchPlayValidation,
 } from "./enums";
 import type {
   ICardRank,
@@ -50,6 +48,7 @@ interface IPitchTeam<
 > extends IComparable<Team> {
   readonly cards: Card[];
   readonly name: string;
+  clearCards(): Card[];
 }
 
 interface IPitchBidder<
@@ -62,7 +61,7 @@ interface IPitchBidder<
   team: Team;
   intelligence: PitchIntelligence;
   readonly hand: Card[];
-  resetHand(): void;
+  clearHand(): Card[];
   reorderHand(): void;
   play(card: Card): Card | undefined;
   takeDeal(deal: Card[]): void;
@@ -226,6 +225,7 @@ interface IPitchScoreboard<
     round: IPitchRoundCalculation<Rank, Suit, Card, Team, Bidr>,
     options?: PitchOptions
   ): void;
+  clear(): void;
 }
 
 interface IPitchState<
@@ -235,17 +235,14 @@ interface IPitchState<
   Team extends IPitchTeam<Rank, Suit, Card, Team>,
   Bidr extends IPitchBidder<Rank, Suit, Card, Team, Bidr>
 > {
-  readonly options: PitchOptions;
-  readonly factory: IPitchCardFactory<Rank, Suit, Card>;
-  readonly deck: IDeck<Rank, Suit, Card>;
-  readonly table: IPitchTable<Rank, Suit, Card, Team, Bidr>;
-  readonly rounds: IPitchRound<Rank, Suit, Card, Team, Bidr>[];
-  readonly calculator: IPitchCalculator<Rank, Suit, Card, Team, Bidr>;
-  readonly scoreboard: IPitchScoreboard<Rank, Suit, Card, Team, Bidr>;
+  /*readonly*/ options: PitchOptions;
+  /*readonly*/ factory: IPitchCardFactory<Rank, Suit, Card>;
+  /*readonly*/ deck: IDeck<Rank, Suit, Card>;
+  /*readonly*/ table: IPitchTable<Rank, Suit, Card, Team, Bidr>;
+  /*readonly*/ rounds: IPitchRound<Rank, Suit, Card, Team, Bidr>[];
+  /*readonly*/ calculator: IPitchCalculator<Rank, Suit, Card, Team, Bidr>;
+  /*readonly*/ scoreboard: IPitchScoreboard<Rank, Suit, Card, Team, Bidr>;
   showCards: boolean;
-  nextRound(roundLeader: Bidr): IPitchRound<Rank, Suit, Card, Team, Bidr>;
-  resetCards(): void;
-  resetState(): void;
 }
 
 interface IPitchDealer<

@@ -7,7 +7,7 @@ import type {
   PitchTeam,
 } from "@/lib/pitch/classes";
 import type { IPitchBid } from "@/lib/pitch/interfaces";
-import { messageKeys } from "@/lib/constants";
+import { tKeys } from "@/lib/constants";
 import { usePitchStore } from "@/stores/pitch";
 import { computed, ref } from "vue";
 import { closeDialog } from "vue3-promise-dialog";
@@ -19,9 +19,7 @@ const props = defineProps<{
   bidder: PitchBidder;
 }>();
 /* store */
-const { currentState, currentRound, currentTrick } = storeToRefs(
-  usePitchStore()
-);
+const { currentState, currentRound } = storeToRefs(usePitchStore());
 /* refs */
 const bid = ref(0);
 const active = ref(true);
@@ -84,7 +82,7 @@ function skipBid(): void {
     <template #default>
       <div class="container">
         <section id="pitch-bid-bid" class="content">
-          {{ $t(messageKeys.message_bid_for, [bidder.name]) }}
+          {{ $t(tKeys.message_bid_for, [bidder.name]) }}
           <div class="select">
             <select v-model="bid">
               <option
@@ -92,6 +90,7 @@ function skipBid(): void {
                 :disabled="!o.enabled"
                 :selected="o.bid === bid"
                 :value="o.bid"
+                :key="o.bid"
               >
                 {{ o.bid }}
               </option>
@@ -100,14 +99,14 @@ function skipBid(): void {
         </section>
         <section id="pitch-bid-submit" class="content level is-mobile">
           <button class="level-item button is-success" @click="placeBid()">
-            {{ $t(messageKeys.label_bid_submit) }}
+            {{ $t(tKeys.label_bid_submit) }}
           </button>
           <button
             class="level-item button"
             :disabled="!skippable"
             @click="skipBid()"
           >
-            {{ $t(messageKeys.label_bid_skip) }}
+            {{ $t(tKeys.label_bid_skip) }}
           </button>
         </section>
       </div>

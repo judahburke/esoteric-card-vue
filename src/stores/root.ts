@@ -1,5 +1,4 @@
-import { localeKeys } from "@/lib/constants";
-import type { LocaleKey } from "@/lib/types";
+import { LocaleKey } from "@/lib/enums";
 import { defineStore } from "pinia";
 
 export type RootPiniaState = {
@@ -10,8 +9,11 @@ export type RootPiniaState = {
 export const useRootStore = defineStore("root", {
   state: (): RootPiniaState => ({
     isLoading: false,
-    locale: localeKeys.en_US,
+    locale: LocaleKey.en_US,
   }),
+  getters: {
+    validLocales: (): LocaleKey[] => [LocaleKey.en_US, LocaleKey.vn_VN],
+  },
   actions: {
     setIsLoading(payload: boolean) {
       this.isLoading = payload;

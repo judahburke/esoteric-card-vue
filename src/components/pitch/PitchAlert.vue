@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { closeDialog } from "vue3-promise-dialog";
 
-const props = defineProps<{
+defineProps<{
   closeKey: string;
   messageKey: string;
   messageParams?: unknown[];

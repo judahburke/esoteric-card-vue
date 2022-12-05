@@ -1,26 +1,51 @@
 enum PitchIntelligence {
-    HUMAN,
-    ARTIFICIAL
+  HUMAN,
+  ARTIFICIAL,
 }
 
 enum PitchBidValidation {
-    LESS_THAN_2,
-    NOT_EXCEED_BID,
-    EXCEED_4,
-    EXCEED_5,
-    NO_BID,
-    TOO_MANY_ATTEMPTS,
+  VALID,
+  LESS_THAN_2,
+  NOT_EXCEED_BID,
+  EXCEED_4,
+  EXCEED_5,
+  NO_BID,
+  TOO_MANY_ATTEMPTS,
 }
 
 enum PitchPlayValidation {
-    NOT_FOLLOWING_SUIT,
-    NOT_IN_HAND,
-    INVALID_CARD,
-    TOO_MANY_ATTEMPTS,
+  VALID,
+  NOT_FOLLOWING_SUIT,
+  NOT_IN_HAND,
+  INVALID_CARD,
+  TOO_MANY_ATTEMPTS,
+}
+
+enum PitchErrorKey {
+  PITCH_501,
+  OPTIONS_400,
+  BIDDER_404,
+  STATE_500_NO_TRUMP,
+  STATE_500_NO_TRICK_WINNER,
+  STATE_404_TEAM,
+  STATE_404_BIDDER,
+  CALC_500_EXTRA_JACK,
+  BID_400_LESS_THAN_2,
+  BID_400_NOT_EXCEED_BID,
+  BID_400_EXCEED_4,
+  BID_400_EXCEED_5,
+  BID_400_NO_BID,
+  BID_400_TOO_MANY_ATTEMPTS,
+  PLAY_400_NOT_FOLLOWING_SUIT,
+  PLAY_400_NOT_IN_HAND,
+  PLAY_400_INVALID_CARD,
+  PLAY_400_TOO_MANY_ATTEMPTS,
+  TRICK_500_NO_WINNER,
 }
 
 export {
-    PitchIntelligence,
-    PitchBidValidation,
-    PitchPlayValidation,
-}
+  PitchIntelligence,
+  PitchBidValidation,
+  PitchPlayValidation,
+  PitchErrorKey,
+};

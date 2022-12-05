@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import { DialogWrapper } from "vue3-promise-dialog";
-import ModalLoading from "./components/ModalLoading.vue";
-import Locale from "./components/SelectLocale.vue";
+import ModalLoading from "@/components/ModalLoading.vue";
+import Locale from "@/components/SelectLocale.vue";
 </script>
 
 <template>
@@ -10,19 +10,21 @@ import Locale from "./components/SelectLocale.vue";
     <div class="tabs is-small is-centered">
       <ul>
         <li>
-          <RouterLink to="/">{{$t('home.title')}}</RouterLink>
+          <RouterLink to="/">{{ $t("home.title") }}</RouterLink>
         </li>
         <li>
-          <RouterLink to="/pitch">{{$t('pitch.title')}}</RouterLink>
+          <RouterLink to="/pitch">{{ $t("pitch.title") }}</RouterLink>
         </li>
         <li>
-          <RouterLink to="/spit">{{$t('spit.title')}}</RouterLink>
+          <RouterLink to="/spit">{{ $t("spit.title") }}</RouterLink>
         </li>
         <li>
-          <RouterLink to="/solitaire">{{$t('solitaire.title')}}</RouterLink>
+          <RouterLink to="/kings-in-the-corners">{{
+            $t("corners.title")
+          }}</RouterLink>
         </li>
         <li>
-          <RouterLink to="/about">{{$t('about.title')}}</RouterLink>
+          <RouterLink to="/about">{{ $t("about.title") }}</RouterLink>
         </li>
       </ul>
     </div>
@@ -40,7 +42,7 @@ import Locale from "./components/SelectLocale.vue";
   </div>
   <div class="hero-foot">
     <div class="level">
-      <div class="level-left">{{$t('label_copyright')}}</div>
+      <div class="level-left">{{ $t("label_copyright") }}</div>
       <div class="level-right"><Locale /></div>
     </div>
   </div>

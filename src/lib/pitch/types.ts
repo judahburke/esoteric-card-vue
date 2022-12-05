@@ -22,6 +22,4 @@ type PitchOptions = {
   cut: CutOptions;
 };
 
-export type { 
-  PitchOptions,
-};
+export type { PitchOptions };

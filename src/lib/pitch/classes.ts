@@ -1,7 +1,16 @@
-import { GenericDealer, GenericDeck, GenericTable } from "../card/classes";
+import {
+  GenericDealer,
+  GenericDeck,
+  GenericTable,
+  CardError,
+} from "../card/classes";
 import type { ICardRank, ICardSuit, ICard, IDeck } from "../card/interfaces";
-import { CardRankKey, CardSuitKey, CardSuitColorKey } from "../card/enums";
-import { messageKeys } from "../constants";
+import {
+  CardRankKey,
+  CardSuitKey,
+  CardSuitColorKey,
+  CardErrorKey,
+} from "../card/enums";
 import { defaultPitchOptions } from "./constants";
 import type {
   IPitchAI,
@@ -27,10 +36,18 @@ import {
   PitchBidValidation,
   PitchPlayValidation,
   PitchIntelligence,
+  PitchErrorKey,
 } from "./enums";
-import type {
-  PitchOptions,
-} from "./types";
+import type { PitchOptions } from "./types";
+
+class PitchError extends Error {
+  constructor(key: PitchErrorKey) {
+    super(key.toString());
+    this.name = "PitchError";
+    this.errorKey = key;
+  }
+  public readonly errorKey: PitchErrorKey;
+}
 
 class PitchCard implements ICard<PitchCardRank, PitchCardSuit, PitchCard> {
   public readonly rank: PitchCardRank;
@@ -89,7 +106,18 @@ class PitchCardRank implements ICardRank<PitchCardRank> {
 
 class PitchCardSuit implements ICardSuit<PitchCardSuit> {
   public readonly key: CardSuitKey;
-  public readonly colorKey: CardSuitColorKey;
+  public get colorKey(): CardSuitColorKey {
+    switch (this.key) {
+      case CardSuitKey.CLUBS:
+      case CardSuitKey.SPADES:
+        return CardSuitColorKey.BLACK;
+      case CardSuitKey.HEARTS:
+      case CardSuitKey.DIAMONDS:
+        return CardSuitColorKey.RED;
+      default:
+        return CardSuitColorKey.NA;
+    }
+  }
   public readonly value: number;
   public compare(other: PitchCardSuit): number {
     return this.value - other.value;
@@ -120,10 +148,9 @@ class PitchCardSuit implements ICardSuit<PitchCardSuit> {
     }
   }
 
-  constructor(key: CardSuitKey, colorKey: CardSuitColorKey, value: number) {
+  constructor(key: CardSuitKey, value: number) {
     this.key = key;
     this.value = value;
-    this.colorKey = colorKey;
   }
 }
 
@@ -131,16 +158,16 @@ class PitchCardFactory
   implements IPitchCardFactory<PitchCardRank, PitchCardSuit, PitchCard>
 {
   public get clubs(): PitchCardSuit {
-    return new PitchCardSuit(CardSuitKey.CLUBS, CardSuitColorKey.BLACK, 1);
+    return new PitchCardSuit(CardSuitKey.CLUBS, 1);
   }
   public get diamonds(): PitchCardSuit {
-    return new PitchCardSuit(CardSuitKey.DIAMONDS, CardSuitColorKey.RED, 2);
+    return new PitchCardSuit(CardSuitKey.DIAMONDS, 2);
   }
   public get spades(): PitchCardSuit {
-    return new PitchCardSuit(CardSuitKey.SPADES, CardSuitColorKey.BLACK, 3);
+    return new PitchCardSuit(CardSuitKey.SPADES, 3);
   }
   public get hearts(): PitchCardSuit {
-    return new PitchCardSuit(CardSuitKey.HEARTS, CardSuitColorKey.RED, 4);
+    return new PitchCardSuit(CardSuitKey.HEARTS, 4);
   }
   public get two(): PitchCardRank {
     return new PitchCardRank(CardRankKey.TWO, 0, 2);
@@ -218,6 +245,9 @@ class PitchTeam
   public id: string;
   public cards: PitchCard[];
   public name: string;
+  clearCards(): PitchCard[] {
+    return this.cards.splice(0, this.cards.length);
+  }
   compare(other: PitchTeam) {
     if (this.id === other.id) {
       return 0;
@@ -243,7 +273,11 @@ class PitchBidder
       PitchBidder
     >
 {
-  constructor(name: string, team?: PitchTeam, intelligence?: PitchIntelligence) {
+  constructor(
+    name: string,
+    team?: PitchTeam,
+    intelligence?: PitchIntelligence
+  ) {
     this.id = crypto.randomUUID();
     this.name = name;
     this.team = team ?? new PitchTeam(name);
@@ -256,7 +290,7 @@ class PitchBidder
   public team: PitchTeam;
   public intelligence: PitchIntelligence;
   public readonly hand: PitchCard[];
-  public resetHand(): PitchCard[] {
+  public clearHand(): PitchCard[] {
     return this.hand.splice(0, this.hand.length);
   }
   reorderHand(): void {
@@ -265,7 +299,7 @@ class PitchBidder
   play(card: PitchCard): PitchCard | undefined {
     const index = this.hand.findIndex((c) => c.compare(card) === 0);
     if (index < 0) {
-      throw new Error(messageKeys.card.errors.CARD_404);
+      throw new CardError(CardErrorKey.CARD_404);
     } else {
       return this.hand.splice(index, 1)[0];
     }
@@ -672,7 +706,7 @@ class PitchCalculator
       // record jack
       if (calc.jackiestTrump) {
         if (roundCalc.jackiestTrump) {
-          throw new Error(messageKeys.pitch.errors.CALC_500_EXTRA_JACK);
+          throw new PitchError(PitchErrorKey.CALC_500_EXTRA_JACK);
         }
         roundCalc.jackiestTrump = { team: team, value: calc.jackiestTrump };
       }
@@ -798,6 +832,11 @@ class PitchScoreboard
       });
     }
   }
+  clear(): void {
+    this._scores.forEach((i) => {
+      i.scores.splice(0, i.scores.length);
+    });
+  }
 
   constructor(
     teams: PitchTeam[],
@@ -845,13 +884,6 @@ class PitchState
     PitchTeam,
     PitchBidder
   >[];
-  private _scoreboard: IPitchScoreboard<
-    PitchCardRank,
-    PitchCardSuit,
-    PitchCard,
-    PitchTeam,
-    PitchBidder
-  >;
 
   public readonly options: PitchOptions;
   public readonly factory: IPitchCardFactory<
@@ -885,57 +917,14 @@ class PitchState
     PitchTeam,
     PitchBidder
   >;
-  public get scoreboard(): IPitchScoreboard<
+  public readonly scoreboard: IPitchScoreboard<
     PitchCardRank,
     PitchCardSuit,
     PitchCard,
     PitchTeam,
     PitchBidder
-  > {
-    return this._scoreboard;
-  }
+  >;
   public showCards: boolean;
-  public nextRound(
-    roundLeader: PitchBidder
-  ): IPitchRound<
-    PitchCardRank,
-    PitchCardSuit,
-    PitchCard,
-    PitchTeam,
-    PitchBidder
-  > {
-    const round = new PitchRound(roundLeader);
-    this.rounds.push(round);
-    return round;
-  }
-  public resetCards(): void {
-    const cards: PitchCard[] = [];
-    // remove any cards from hands
-    for (const bidr of this.table.iterator()) {
-      cards.push(...bidr.hand.splice(0));
-    }
-    for (const team of this.table.teams) {
-      cards.push(...team.cards.splice(0));
-    }
-    if (cards.length + this._deck.length !== 52) {
-      console.warn(
-        "[pitch] someone stole a card... ",
-        this.deck.length,
-        " cards in deck, ",
-        cards.length,
-        " cards from players and teams...",
-        cards
-      );
-    }
-    // get a new deck (no cheating!)
-    this._deck = new PitchDeck(this.factory);
-  }
-  public resetState(): void {
-    this.resetCards();
-    this._rounds = [];
-    this._scoreboard = new PitchScoreboard(this.table.teams, this.calculator);
-    this.showCards = false;
-  }
 
   constructor(
     table: IPitchTable<
@@ -975,9 +964,9 @@ class PitchState
     this.options = options ?? defaultPitchOptions;
     this.factory = factory ?? new PitchCardFactory();
     this.calculator = calculator ?? new PitchCalculator(this.factory);
-    this._deck = deck ?? new PitchDeck(this.factory);
-    this._scoreboard =
+    this.scoreboard =
       scoreboard ?? new PitchScoreboard(this.table.teams, this.calculator);
+    this._deck = deck ?? new PitchDeck(this.factory);
     this._rounds = rounds ?? [];
     this.showCards = showCards ?? false;
   }
@@ -1092,11 +1081,12 @@ class PitchDealer
     IPitchState<PitchCardRank, PitchCardSuit, PitchCard, PitchTeam, PitchBidder>
   > {
     let winningTeam: PitchTeam | undefined;
+    this.clearState(state);
 
     for (
-      let round = state.nextRound(state.table.leader);
+      let round = this.nextRound(state);
       !winningTeam;
-      round = state.nextRound(state.table.leader)
+      round = this.nextRound(state)
     ) {
       state = await this.dealHands(state, callbackRefresh);
 
@@ -1147,10 +1137,10 @@ class PitchDealer
 
             state.table.setNextLeader(winningPlay.bidder);
           } else {
-            throw new Error(messageKeys.pitch.errors.STATE_500_NO_TRICK_WINNER);
+            throw new PitchError(PitchErrorKey.STATE_500_NO_TRICK_WINNER);
           }
         } else {
-          throw new Error(messageKeys.pitch.errors.STATE_500_NO_TRUMP);
+          throw new PitchError(PitchErrorKey.STATE_500_NO_TRUMP);
         }
       }
 
@@ -1195,7 +1185,7 @@ class PitchDealer
   ): Promise<
     IPitchState<PitchCardRank, PitchCardSuit, PitchCard, PitchTeam, PitchBidder>
   > {
-    state.resetCards();
+    this.clearCards(state);
     state.deck.shuffle(undefined, state.options.shuffle);
 
     for (const _ of [1, 2]) {
@@ -1208,7 +1198,7 @@ class PitchDealer
           bidder.reorderHand();
           await callbackRefresh(state);
         } else {
-          throw new Error(messageKeys.card.errors.DECK_500_EMPTY);
+          throw new CardError(CardErrorKey.DECK_500_EMPTY);
         }
       }
     }
@@ -1272,13 +1262,13 @@ class PitchDealer
 
       for (
         let reason = this.validateBid(state, bid);
-        reason;
+        reason != PitchBidValidation.VALID;
         reason = this.validateBid(state, bid)
       ) {
         await callbackRefresh(state);
 
         if (attempt++ > 10) {
-          throw new Error(messageKeys.pitch.errors.PLAY_400_TOO_MANY_ATTEMPTS);
+          throw new PitchError(PitchErrorKey.PLAY_400_TOO_MANY_ATTEMPTS);
         }
 
         console.debug(
@@ -1366,13 +1356,13 @@ class PitchDealer
 
       for (
         let reason = this.validatePlay(state, { bidder, card: selectedCard });
-        reason;
+        reason != PitchPlayValidation.VALID;
         reason = this.validatePlay(state, { bidder, card: selectedCard })
       ) {
         await callbackRefresh(state, "validation result... " + reason);
 
         if (attempt++ > 10) {
-          throw new Error(messageKeys.pitch.errors.PLAY_400_TOO_MANY_ATTEMPTS);
+          throw new PitchError(PitchErrorKey.PLAY_400_TOO_MANY_ATTEMPTS);
         }
 
         console.debug(
@@ -1397,7 +1387,7 @@ class PitchDealer
       await callbackRefresh(state, "card taken from bidder hand...");
 
       if (!playedCard) {
-        throw new Error(messageKeys.card.errors.CARD_404);
+        throw new CardError(CardErrorKey.CARD_404);
       }
 
       round.trump = round.trump ?? playedCard.suit;
@@ -1412,13 +1402,13 @@ class PitchDealer
     }
 
     if (!round.trump) {
-      throw new Error(messageKeys.pitch.errors.STATE_500_NO_TRUMP);
+      throw new PitchError(PitchErrorKey.STATE_500_NO_TRUMP);
     }
 
     const trickWinner = trick.getWinningPlay(round.trump);
 
     if (!trickWinner) {
-      throw new Error(messageKeys.pitch.errors.TRICK_500_NO_WINNER);
+      throw new PitchError(PitchErrorKey.TRICK_500_NO_WINNER);
     }
 
     trickWinner.bidder.team.cards.push(...trick.waste.map((w) => w.card));
@@ -1494,6 +1484,67 @@ class PitchDealer
     return state;
   }
 
+  private nextRound(
+    state: IPitchState<
+      PitchCardRank,
+      PitchCardSuit,
+      PitchCard,
+      PitchTeam,
+      PitchBidder
+    >
+  ): IPitchRound<
+    PitchCardRank,
+    PitchCardSuit,
+    PitchCard,
+    PitchTeam,
+    PitchBidder
+  > {
+    const round = new PitchRound(state.table.leader);
+    state.rounds.push(round);
+    return round;
+  }
+  private clearCards(
+    state: IPitchState<
+      PitchCardRank,
+      PitchCardSuit,
+      PitchCard,
+      PitchTeam,
+      PitchBidder
+    >
+  ): void {
+    const cards: PitchCard[] = [];
+    // remove any cards from hands
+    for (const bidr of state.table.iterator()) {
+      cards.push(...bidr.clearHand());
+      if (bidr.team.cards.length > 0) {
+        cards.push(...bidr.team.clearCards());
+      }
+    }
+    if (cards.length + state.deck.length !== 52) {
+      console.warn(
+        "[pitch] someone stole a card... " +
+          `${state.deck.length} cards in deck, ` +
+          `${cards.length} cards from players and teams...`,
+        cards
+      );
+    }
+    // get a new deck (no cheating!)
+    state.deck = new PitchDeck(state.factory);
+  }
+  private clearState(
+    state: IPitchState<
+      PitchCardRank,
+      PitchCardSuit,
+      PitchCard,
+      PitchTeam,
+      PitchBidder
+    >
+  ): void {
+    this.clearCards(state);
+    state.scoreboard.clear();
+    state.rounds = [];
+    state.showCards = false;
+  }
   private validateBid(
     state: IPitchState<
       PitchCardRank,
@@ -1509,13 +1560,13 @@ class PitchDealer
       PitchTeam,
       PitchBidder
     >
-  ): PitchBidValidation | undefined {
+  ): PitchBidValidation {
     const round = state.rounds[state.rounds.length - 1];
     // bidder skips their turn
     if (bid.skip) {
       // if all turns may be skipped, no error
       if (state.options.isBidNoneEnabled) {
-        return undefined;
+        return PitchBidValidation.VALID;
       }
       // otherwise, if this is the last bidder, the bidder must bid
       else if (
@@ -1544,7 +1595,7 @@ class PitchDealer
       return PitchBidValidation.NOT_EXCEED_BID;
     }
     // no error found
-    return undefined;
+    return PitchBidValidation.VALID;
   }
   private validatePlay(
     state: IPitchState<
@@ -1561,7 +1612,7 @@ class PitchDealer
       PitchTeam,
       PitchBidder
     >
-  ): PitchPlayValidation | undefined {
+  ): PitchPlayValidation {
     const round = state.rounds[state.rounds.length - 1];
     const trick = round.tricks[round.tricks.length - 1];
     // bidder must have card
@@ -1574,7 +1625,7 @@ class PitchDealer
       round.trump &&
       play.card.suit.compare(round.trump) === 0
     ) {
-      return undefined;
+      return PitchPlayValidation.VALID;
     }
     // if lead suit is played, bidder must follow suit if they have it
     if (
@@ -1585,7 +1636,7 @@ class PitchDealer
       return PitchPlayValidation.NOT_FOLLOWING_SUIT;
     }
     // player must play the leading suit of the trick
-    return undefined;
+    return PitchPlayValidation.VALID;
   }
   private async retry<T>(
     max: number,
@@ -1713,13 +1764,13 @@ class PitchAIBaby
     hand: PitchCard[],
     factory: IPitchCardFactory<PitchCardRank, PitchCardSuit, PitchCard>
   ): { suit: PitchCardSuit; worth: number }[] {
-    const ten = factory.ten;
+    //const ten = factory.ten;
     const jack = factory.jack;
     const queen = factory.queen;
     const king = factory.king;
     const ace = factory.ace;
     const handSuits = hand.map((x) => x.suit);
-    const handByRank = PitchCard.groupBy(hand, (c) => c.rank.key);
+    //const handByRank = PitchCard.groupBy(hand, (c) => c.rank.key);
     const handBySuit = PitchCard.groupBy(hand, (c) => c.suit.key);
     const handByRankSuit = PitchCard.groupBy(
       hand,
@@ -1727,11 +1778,14 @@ class PitchAIBaby
     );
     return handSuits.map((suit) => {
       const s = handBySuit[suit.key]?.length ?? 0;
-      const t = handByRank[ten.key]?.length ?? 0;
-      const j = handByRankSuit[jack.key.toString() + suit.key.toString()]?.length ?? 0;
-      const q = handByRankSuit[queen.key.toString() + suit.key.toString()]?.length ?? 0;
-      const k = handByRankSuit[king.key.toString() + suit.key.toString()]?.length ?? 0;
-      const a = handByRankSuit[ace.key.toString() + suit.key.toString()]?.length ?? 0;
+      const j =
+        handByRankSuit[jack.key.toString() + suit.key.toString()]?.length ?? 0;
+      const q =
+        handByRankSuit[queen.key.toString() + suit.key.toString()]?.length ?? 0;
+      const k =
+        handByRankSuit[king.key.toString() + suit.key.toString()]?.length ?? 0;
+      const a =
+        handByRankSuit[ace.key.toString() + suit.key.toString()]?.length ?? 0;
 
       // (six cards of the suit with an ace, king and queen)
       if (a > 0 && k > 0 && q > 0 && s > 5) {
@@ -1782,6 +1836,7 @@ class PitchAIFactory
 }
 
 export {
+  PitchError,
   PitchCardRank,
   PitchCardSuit,
   PitchCard,

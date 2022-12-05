@@ -19,7 +19,7 @@ const i18n = createI18n<false>({
     // de_DE,
     // es_MX,
     en_US,
-    vn_VN
+    vn_VN,
   },
   // datetimeFormats: {
 

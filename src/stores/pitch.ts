@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import type { LocaleKey } from "@/lib/types";
 import {
   PitchBidder,
   PitchCalculator,
@@ -13,19 +12,13 @@ import {
   PitchTable,
   PitchTeam,
 } from "@/lib/pitch/classes";
-import {
-  defaultPitchOptions,
-} from "@/lib/pitch/constants";
+import { defaultPitchOptions } from "@/lib/pitch/constants";
 import type {
   IPitchRound,
-  IPitchScoreboard,
   IPitchState,
-  IPitchTable,
   IPitchTrick,
 } from "@/lib/pitch/interfaces";
-import type { PitchOptions } from "@/lib/pitch/types";
-import type { IDeck } from "@/lib/card/interfaces";
-import { localeKeys, messageKeys } from "@/lib/constants";
+import { tKeys } from "@/lib/constants";
 import { PitchIntelligence } from "@/lib/pitch/enums";
 
 const teamMap = (tCount: number, tArray: TeamConfig[]) =>
@@ -44,50 +37,50 @@ const defaultFactory = new PitchCardFactory();
 const defaultCalculator = new PitchCalculator(defaultFactory);
 const defaultBidders = [
   {
-    name: "Player 1",
+    name: "I-Robot",
     intelligence: PitchIntelligence.ARTIFICIAL,
   },
   {
-    name: "Player 2",
+    name: "Myself",
     intelligence: PitchIntelligence.HUMAN,
   },
   {
-    name: "Player 3",
+    name: "R2-D2",
     intelligence: PitchIntelligence.ARTIFICIAL,
   },
   {
-    name: "Player 4",
+    name: "WALL-E",
     intelligence: PitchIntelligence.ARTIFICIAL,
   },
   {
-    name: "Player 5",
+    name: "Terminator",
     intelligence: PitchIntelligence.ARTIFICIAL,
   },
   {
-    name: "Player 6",
+    name: "Marvin",
     intelligence: PitchIntelligence.ARTIFICIAL,
   },
   {
-    name: "Player 7",
+    name: "HAL",
     intelligence: PitchIntelligence.ARTIFICIAL,
   },
   {
-    name: "Player 8",
+    name: "Bender",
     intelligence: PitchIntelligence.ARTIFICIAL,
   },
 ];
 const defaultTeams = [
   {
-    name: "Team 1",
+    name: "Robots",
   },
   {
-    name: "Team 2",
+    name: "Humans",
   },
   {
-    name: "Team 3",
+    name: "Lobsters",
   },
   {
-    name: "Team 4",
+    name: "Whistlers",
   },
 ];
 type BidderConfig = {
@@ -97,31 +90,14 @@ type BidderConfig = {
 type TeamConfig = {
   name: string;
 };
-export type PitchPiniaState = {
-  deck: IDeck<PitchCardRank, PitchCardSuit, PitchCard>;
-  options: PitchOptions;
-  table: IPitchTable<
+export interface PiniaPitchState
+  extends IPitchState<
     PitchCardRank,
     PitchCardSuit,
     PitchCard,
     PitchTeam,
     PitchBidder
-  >;
-  rounds: IPitchRound<
-    PitchCardRank,
-    PitchCardSuit,
-    PitchCard,
-    PitchTeam,
-    PitchBidder
-  >[];
-  scoreboard: IPitchScoreboard<
-    PitchCardRank,
-    PitchCardSuit,
-    PitchCard,
-    PitchTeam,
-    PitchBidder
-  >;
-  showCards: boolean;
+  > {
   bidderConfigs: BidderConfig[];
   teamConfigs: TeamConfig[];
   currentRound:
@@ -142,10 +118,12 @@ export type PitchPiniaState = {
         PitchBidder
       >
     | undefined;
-};
+}
 
 export const usePitchStore = defineStore("pitch", {
-  state: (): PitchPiniaState => ({
+  state: (): PiniaPitchState => ({
+    factory: defaultFactory,
+    calculator: defaultCalculator,
     options: { ...defaultPitchOptions },
     deck: new PitchDeck(defaultFactory),
     table: new PitchTable([]),
@@ -162,7 +140,6 @@ export const usePitchStore = defineStore("pitch", {
       PitchIntelligence.HUMAN,
       PitchIntelligence.ARTIFICIAL,
     ],
-    validLocales: (): LocaleKey[] => [localeKeys.en_US, localeKeys.vn_VN],
     validWinningScores: (): number[] => [11, 21],
     validShuffleCounts: (): number[] => [1, 2, 3, 4, 5, 6, 7, 8, 9],
     validCutCounts: (): number[] => {
@@ -217,6 +194,7 @@ export const usePitchStore = defineStore("pitch", {
       state.scoreboard.getScoreTotal(team),
   },
   actions: {
+    initCards() {},
     initializeState() {
       this.deck = new PitchDeck(defaultFactory);
       this.table = new PitchTable(this.currentBidders);
@@ -234,13 +212,13 @@ export const usePitchStore = defineStore("pitch", {
     },
     setOptionWinningScore(payload: number) {
       if (!this.validWinningScores.includes(payload)) {
-        throw new Error(messageKeys.pitch.errors.OPTIONS_400);
+        throw new Error(tKeys.pitch.errors.OPTIONS_400);
       }
       this.options.winningScore = payload;
     },
     setOptionBidderCount(payload: number) {
       if (!this.validBidderCounts.includes(payload)) {
-        throw new Error(messageKeys.pitch.errors.OPTIONS_400);
+        throw new Error(tKeys.pitch.errors.OPTIONS_400);
       }
       this.options.bidderCount = payload;
       if (!this.validTeamCounts.includes(this.options.teamCount)) {
@@ -250,14 +228,14 @@ export const usePitchStore = defineStore("pitch", {
     },
     setOptionTeamCount(payload: number) {
       if (!this.validTeamCounts.includes(payload)) {
-        throw new Error(messageKeys.pitch.errors.OPTIONS_400);
+        throw new Error(tKeys.pitch.errors.OPTIONS_400);
       }
       this.options.teamCount = payload;
       this.initializeState();
     },
     setTeamConfigName(payload: string, index: number) {
       if (index >= this.teamConfigs.length) {
-        throw new Error(messageKeys.pitch.errors.STATE_404_TEAM);
+        throw new Error(tKeys.pitch.errors.STATE_404_TEAM);
       }
       this.teamConfigs[index].name = payload;
       this.initializeState();
@@ -268,14 +246,14 @@ export const usePitchStore = defineStore("pitch", {
     },
     setBidderConfigName(payload: string, index: number) {
       if (index >= this.bidderConfigs.length) {
-        throw new Error(messageKeys.pitch.errors.STATE_404_BIDDER);
+        throw new Error(tKeys.pitch.errors.STATE_404_BIDDER);
       }
       this.bidderConfigs[index].name = payload;
       this.initializeState();
     },
     setBidderConfigIntelligence(payload: PitchIntelligence, index: number) {
       if (index >= this.bidderConfigs.length) {
-        throw new Error(messageKeys.pitch.errors.STATE_404_BIDDER);
+        throw new Error(tKeys.pitch.errors.STATE_404_BIDDER);
       }
       this.bidderConfigs[index].intelligence = payload;
       this.initializeState();
@@ -298,13 +276,13 @@ export const usePitchStore = defineStore("pitch", {
     },
     setOptionShuffleCount(payload: number) {
       if (!this.validShuffleCounts.includes(payload)) {
-        throw new Error(messageKeys.pitch.errors.OPTIONS_400);
+        throw new Error(tKeys.pitch.errors.OPTIONS_400);
       }
       this.options.shuffle.shuffleCount = payload;
     },
     setOptionCutMin(payload: number) {
       if (!this.validCutCounts.includes(payload)) {
-        throw new Error(messageKeys.pitch.errors.OPTIONS_400);
+        throw new Error(tKeys.pitch.errors.OPTIONS_400);
       }
       this.options.cut.cutMinimum = payload;
     },

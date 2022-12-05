@@ -1,14 +1,5 @@
 <script setup lang="ts">
-import {
-  type Ref,
-  ref,
-  computed,
-  onMounted,
-  watch,
-  resolveComponent,
-} from "vue";
-import { useRouter } from "vue-router";
-import { openDialog } from "vue3-promise-dialog";
+import { CardError } from "@/lib/card/classes";
 import type {
   IPitchBid,
   IPitchPlay,
@@ -23,12 +14,14 @@ import {
   PitchCardSuit,
   PitchDealer,
   PitchTeam,
+  PitchError,
 } from "@/lib/pitch/classes";
-import { usePitchStore } from "@/stores/pitch";
-import { DialogWrapper } from "vue3-promise-dialog";
-import type { PitchBidValidation, PitchPlayValidation } from "@/lib/pitch/enums";
-import { messageKeys } from "@/lib/constants";
-import ModalAlertVue from "../ModalAlert.vue";
+import type {
+  PitchBidValidation,
+  PitchPlayValidation,
+} from "@/lib/pitch/enums";
+import { tKeys } from "@/lib/constants";
+import ModalAlertVue from "@/components/ModalAlert.vue";
 import ModalBooleanPromptVue from "@/components/ModalBooleanPrompt.vue";
 import PitchScoreboardVue from "@/components/pitch/PitchScoreboard.vue";
 import PitchTrickVue from "@/components/pitch/PitchTrick.vue";
@@ -37,8 +30,15 @@ import PitchBidPromptVue from "@/components/pitch/PitchBidPrompt.vue";
 import PitchHandPromptVue from "@/components/pitch/PitchHandPrompt.vue";
 import PitchConfigPromptVue from "@/components/pitch/PitchConfigPrompt.vue";
 import PitchRoundAlertVue from "@/components/pitch/PitchRoundAlert.vue";
-import PitchAlertVue from "./PitchAlert.vue";
+import PitchAlertVue from "@/components/pitch/PitchAlert.vue";
+import { usePitchStore } from "@/stores/pitch";
+import { type Ref, ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { openDialog } from "vue3-promise-dialog";
+import { DialogWrapper } from "vue3-promise-dialog";
 import { storeToRefs } from "pinia";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n({ useScope: "global" });
 
 /* router */
 const router = useRouter();
@@ -92,23 +92,31 @@ async function play() {
     await again();
   } catch (error) {
     console.error(error);
-    if (error && (error as Error).message) {
+    if (error) {
+      let messageParam = (error as Error).message ?? t(tKeys.errors.NA_500);
+      if (error instanceof PitchError) {
+        let k = (error as PitchError).errorKey;
+        messageParam = t(tKeys.mapPitchError(k), [k]);
+      } else if (error instanceof CardError) {
+        let k = (error as CardError).errorKey;
+        messageParam = t(tKeys.mapCardError(k), [k]);
+      }
       await openDialog(ModalAlertVue, {
-        titleKey: messageKeys.title_error,
-        messageKey: messageKeys.message_error_of,
-        messageParams: [(error as Error).message],
+        titleKey: tKeys.title_error,
+        messageKey: tKeys.message_error_of,
+        messageParams: [messageParam],
       });
-      writeErrors([(error as Error).message]);
+      writeErrors([messageParam]);
     }
   }
 }
 async function again(): Promise<void> {
   if (
     await openDialog(ModalBooleanPromptVue, {
-      titleKey: "Game Over",
-      message: "Would you like to play again",
-      labelTrue: "Yes",
-      labelFalse: "No",
+      titleKey: tKeys.title_game_over,
+      message: tKeys.message_play_again,
+      labelTrue: tKeys.label_yes,
+      labelFalse: tKeys.label_no,
     })
   ) {
     await play();
@@ -133,9 +141,9 @@ async function alertOfTurn(
     return true;
   } else {
     return await openDialog(ModalAlertVue, {
-      titleKey: messageKeys.title_turn_for,
+      titleKey: tKeys.title_turn_for,
       titleParams: [bidder.name],
-      messageKey: messageKeys.message_turn_for,
+      messageKey: tKeys.message_turn_for,
       messageParams: [bidder.name],
     });
   }
@@ -160,8 +168,8 @@ async function alertOfTrickResult(
   await openDialog(
     PitchAlertVue,
     {
-      closeKey: messageKeys.label_continue,
-      messageKey: messageKeys.message_trick_winner_for,
+      closeKey: tKeys.label_continue,
+      messageKey: tKeys.message_trick_winner_for,
       messageParams: [winningPlay.bidder.name],
     },
     "pitch-notice"
@@ -204,8 +212,8 @@ async function alertOfGameResult(
   await openDialog(
     PitchAlertVue,
     {
-      closeKey: messageKeys.label_continue,
-      messageKey: messageKeys.message_winner_for,
+      closeKey: tKeys.label_continue,
+      messageKey: tKeys.message_winner_for,
       messageParams: [winningTeam.name],
     },
     "pitch-notice"
@@ -230,8 +238,8 @@ async function promptForBid(
   } else {
     if (validation) {
       await openDialog(ModalAlertVue, {
-        titleKey: `${bidder.name}: Invalid Bid`,
-        messageKey: messageKeys.mapPitchBidValidation(validation),
+        titleKey: tKeys.pitch.title_invalid_bid_for,
+        messageKey: tKeys.mapPitchBidVal(validation),
       });
     }
     showMove.value = true;
@@ -257,8 +265,8 @@ async function promptForPlay(
   } else {
     if (validation) {
       await openDialog(ModalAlertVue, {
-        titleKey: `${bidder.name}: Invalid Play`,
-        messageKey: messageKeys.mapPitchPlayValidation(validation),
+        titleKey: tKeys.pitch.title_invalid_play_for,
+        messageKey: tKeys.mapPitchPlayVal(validation),
       });
     }
     showMove.value = true;
@@ -285,9 +293,9 @@ async function setState(
   }
   store.setPitchState(state);
 }
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+// function delay(ms: number) {
+//   return new Promise((resolve) => setTimeout(resolve, ms));
+// }
 
 onMounted(() => config());
 </script>

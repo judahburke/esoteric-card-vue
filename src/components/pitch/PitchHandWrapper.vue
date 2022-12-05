@@ -7,7 +7,7 @@ import { storeToRefs } from "pinia";
 /* store */
 const { showCards } = storeToRefs(usePitchStore());
 /* props */
-const props = defineProps<{
+defineProps<{
   bidder: PitchBidder;
 }>();
 /* emit */
@@ -22,7 +22,11 @@ const emit = defineEmits(["selectCardIndex"]);
     <div class="block"></div>
     <div id="pitch-hand-cards" class="content">
       <div class="columns is-multiline is-centered is-mobile">
-        <div class="column is-narrow" v-for="(card, index) in bidder.hand">
+        <div
+          class="column is-narrow"
+          v-for="(card, index) in bidder.hand"
+          :key="card.rank.key * 100 + card.suit.key"
+        >
           <PitchCardVue
             :card="card"
             :show="showCards"

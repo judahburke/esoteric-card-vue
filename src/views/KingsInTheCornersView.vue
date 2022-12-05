@@ -3,14 +3,14 @@ import { tKeys } from "@/lib/constants";
 </script>
 
 <template>
-  <div id="spit" class="container">
+  <div id="corners" class="container">
     <div class="content">
-      <h2 class="title is-2">{{ $t(tKeys.spit.title) }}</h2>
+      <h2 class="title is-2">{{ $t(tKeys.corners.title) }}</h2>
       <p class="subtitle is-4">
-        {{ $t(tKeys.spit.message_description) }}
+        {{ $t(tKeys.corners.message_description) }}
       </p>
       <p class="subtitle is-4">
-        {{ $t(tKeys.spit.message_waitdescription) }}
+        {{ $t(tKeys.corners.message_waitdescription) }}
       </p>
     </div>
   </div>

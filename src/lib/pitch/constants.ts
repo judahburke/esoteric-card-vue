@@ -1,6 +1,4 @@
-import type {
-  PitchOptions,
-} from "./types";
+import type { PitchOptions } from "./types";
 
 const defaultPitchOptions: PitchOptions = {
   verbose: false,
@@ -9,7 +7,7 @@ const defaultPitchOptions: PitchOptions = {
   teamCount: 0,
   isBidFiveEnabled: false,
   isBidNoneEnabled: false,
-  isAllowTrumpWhenCanFollowSuitEnabled: false,
+  isAllowTrumpWhenCanFollowSuitEnabled: true,
   isScoreTiedGamePointsEnabled: true,
   shuffle: {
     shuffleCount: 5,
@@ -23,6 +21,4 @@ const defaultPitchOptions: PitchOptions = {
   },
 };
 
-export {
-  defaultPitchOptions
-};
+export { defaultPitchOptions };
