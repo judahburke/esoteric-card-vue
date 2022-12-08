@@ -10,7 +10,7 @@ const { currentTrick } = storeToRefs(usePitchStore());
   <div id="pitch-trick" class="columns is-multiline is-centered is-mobile">
     <div
       v-for="item in currentTrick?.waste ?? []"
-      :key="item.card.rank.key * 100 + item.card.suit.key"
+      :key="item.card.rank.key.toString() + item.card.suit.key.toString()"
       class="column is-narrow"
     >
       <PitchCardVue :card="item.card" :show="true" />

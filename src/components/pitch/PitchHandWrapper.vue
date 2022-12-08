@@ -25,7 +25,7 @@ const emit = defineEmits(["selectCardIndex"]);
         <div
           class="column is-narrow"
           v-for="(card, index) in bidder.hand"
-          :key="card.rank.key * 100 + card.suit.key"
+          :key="card.rank.key.toString() + card.suit.key.toString()"
         >
           <PitchCardVue
             :card="card"

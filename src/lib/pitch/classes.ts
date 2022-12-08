@@ -805,7 +805,11 @@ class PitchScoreboard
     }
     const winners = this._scores
       .filter((trs) => this.getScoreTotal(trs.team) >= options!.winningScore)
-      .sort((trsa, trsb) => trsb.scores[trsb.scores.length].bid - trsa.scores[trsa.scores.length - 1].bid);
+      .sort(
+        (trsa, trsb) =>
+          trsb.scores[trsb.scores.length].bid -
+          trsa.scores[trsa.scores.length - 1].bid
+      );
     if (winners.length > 0) {
       return winners[winners.length - 1].team;
     } else {
@@ -1725,7 +1729,9 @@ class PitchAIBaby
     const trump =
       round.trump ??
       // bidder is deciding trump
-      this.decideWorthBySuit(hand, state.factory).sort((a,b) => b.worth - a.worth)[0].suit;
+      this.decideWorthBySuit(hand, state.factory).sort(
+        (a, b) => b.worth - a.worth
+      )[0].suit;
 
     console.debug(
       "[pitch] PitchAIBaby.decidePlay (given trump, desired trump, lead suit)",
