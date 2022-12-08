@@ -1729,9 +1729,7 @@ class PitchAIBaby
     const trump =
       round.trump ??
       // bidder is deciding trump
-      this.decideWorthBySuit(hand, state.factory).sort(
-        (a, b) => b.worth - a.worth
-      )[0].suit;
+      this.decideTrump(hand, state.factory);
 
     console.debug(
       "[pitch] PitchAIBaby.decidePlay (given trump, desired trump, lead suit)",
@@ -1744,7 +1742,7 @@ class PitchAIBaby
       trick.leadSuit ??
       (round.trump
         ? // bidder is leading
-          trump
+          this.decideLead(hand, trump, state.factory)
         : // bidder is leading, and deciding trump
           trump);
 
@@ -1753,7 +1751,11 @@ class PitchAIBaby
         -a.compareWeight(
           b,
           leadSuit,
-          state.options.isAllowTrumpWhenCanFollowSuitEnabled ? trump : undefined
+          round.trump
+            ? state.options.isAllowTrumpWhenCanFollowSuitEnabled // trump already set
+              ? trump // can follow with trump when can follow suit
+              : undefined // cannot follow with trump when can follow suit
+            : trump // deciding trump
         )
     );
 
@@ -1764,6 +1766,37 @@ class PitchAIBaby
     );
 
     return sortedHand[0];
+  }
+
+  private decideTrump(
+    hand: PitchCard[],
+    factory: IPitchCardFactory<PitchCardRank, PitchCardSuit, PitchCard>
+  ): PitchCardSuit {
+    const worth = this.decideWorthBySuit(hand, factory);
+
+    // sort descending
+    const sorted = worth.sort((a, b) => b.worth - a.worth);
+
+    return sorted[0].suit;
+  }
+
+  private decideLead(
+    hand: PitchCard[],
+    trump: PitchCardSuit,
+    factory: IPitchCardFactory<PitchCardRank, PitchCardSuit, PitchCard>
+  ): PitchCardSuit {
+    const jack = factory.jack;
+    if (
+      hand.some((x) => x.rank.compare(jack) > 0) ||
+      !hand.some((x) => x.suit.compare(trump) != 0)
+    ) {
+      return trump;
+    } else {
+      const cardsByRank = hand
+        .filter((x) => x.suit.compare(trump) != 0)
+        .sort((a, b) => b.rank.compare(a.rank));
+      return cardsByRank[0].suit;
+    }
   }
 
   private decideWorthBySuit(
