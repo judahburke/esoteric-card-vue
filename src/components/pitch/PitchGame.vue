@@ -239,6 +239,7 @@ async function promptForBid(
     if (validation) {
       await openDialog(ModalAlertVue, {
         titleKey: tKeys.pitch.title_invalid_bid_for,
+        titleParams: [bidder.name],
         messageKey: tKeys.mapPitchBidVal(validation),
       });
     }
@@ -266,6 +267,7 @@ async function promptForPlay(
     if (validation) {
       await openDialog(ModalAlertVue, {
         titleKey: tKeys.pitch.title_invalid_play_for,
+        titleParams: [bidder.name],
         messageKey: tKeys.mapPitchPlayVal(validation),
       });
     }

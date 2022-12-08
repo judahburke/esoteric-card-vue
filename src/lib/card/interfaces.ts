@@ -52,6 +52,7 @@ interface IDeck<
   push(...card: C[]): void;
   cut(topLength?: number, options?: CutOptions): void;
   shuffle(dealtCards?: C[], options?: ShuffleOptions): void;
+  init(factory: ICardFactory<R, S, C>): void;
 }
 
 interface IDealer<

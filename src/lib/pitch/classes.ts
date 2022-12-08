@@ -805,7 +805,7 @@ class PitchScoreboard
     }
     const winners = this._scores
       .filter((trs) => this.getScoreTotal(trs.team) >= options!.winningScore)
-      .sort((trs) => trs.scores[trs.scores.length - 1].bid);
+      .sort((trsa, trsb) => trsb.scores[trsb.scores.length].bid - trsa.scores[trsa.scores.length - 1].bid);
     if (winners.length > 0) {
       return winners[winners.length - 1].team;
     } else {
@@ -1529,7 +1529,7 @@ class PitchDealer
       );
     }
     // get a new deck (no cheating!)
-    state.deck = new PitchDeck(state.factory);
+    state.deck.init(state.factory);
   }
   private clearState(
     state: IPitchState<
@@ -1542,7 +1542,7 @@ class PitchDealer
   ): void {
     this.clearCards(state);
     state.scoreboard.clear();
-    state.rounds = [];
+    state.rounds.splice(0);
     state.showCards = false;
   }
   private validateBid(
@@ -1725,7 +1725,7 @@ class PitchAIBaby
     const trump =
       round.trump ??
       // bidder is deciding trump
-      this.decideWorthBySuit(hand, state.factory).sort((w) => -w.worth)[0].suit;
+      this.decideWorthBySuit(hand, state.factory).sort((a,b) => b.worth - a.worth)[0].suit;
 
     console.debug(
       "[pitch] PitchAIBaby.decidePlay (given trump, desired trump, lead suit)",
@@ -1769,7 +1769,7 @@ class PitchAIBaby
     const queen = factory.queen;
     const king = factory.king;
     const ace = factory.ace;
-    const handSuits = hand.map((x) => x.suit);
+    const handSuits = [...new Set(hand.map((x) => x.suit))];
     //const handByRank = PitchCard.groupBy(hand, (c) => c.rank.key);
     const handBySuit = PitchCard.groupBy(hand, (c) => c.suit.key);
     const handByRankSuit = PitchCard.groupBy(

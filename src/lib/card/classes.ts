@@ -81,7 +81,7 @@ abstract class GenericDeck<
   Card extends ICard<Rank, Suit, Card>
 > implements IDeck<Rank, Suit, Card>
 {
-  private _stack: Card[];
+  private _stack: Card[] = [];
   public get length(): number {
     return this._stack.length;
   }
@@ -147,10 +147,14 @@ abstract class GenericDeck<
     }
     this._stack = allCards;
   }
+  init(factory: ICardFactory<Rank, Suit, Card>) {
+    console.debug(`[card] ${typeof this}.init`);
+    this._stack.splice(0);
+    factory.cards.forEach((card) => this._stack.push(card));
+  }
 
   constructor(factory: ICardFactory<Rank, Suit, Card>) {
-    this._stack = [];
-    factory.cards.forEach((card) => this._stack.push(card));
+    this.init(factory);
   }
 }
 class StandardDeck extends GenericDeck<
