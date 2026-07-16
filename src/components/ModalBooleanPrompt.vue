@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { closeDialog } from "vue3-promise-dialog";
+import { closeDialog } from "@/lib/dialog";
 import ModalCardVue from "@/components/ModalCard.vue";
 import { ref } from "vue";
 

@@ -10,7 +10,7 @@ import type { IPitchBid } from "@/lib/pitch/interfaces";
 import { tKeys } from "@/lib/constants";
 import { usePitchStore } from "@/stores/pitch";
 import { computed, ref } from "vue";
-import { closeDialog } from "vue3-promise-dialog";
+import { closeDialog } from "@/lib/dialog";
 import PitchHandWrapperVue from "@/components/pitch/PitchHandWrapper.vue";
 import { storeToRefs } from "pinia";
 

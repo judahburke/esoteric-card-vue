@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PitchBidder, PitchCard } from "@/lib/pitch/classes";
 import { ref } from "vue";
-import { closeDialog } from "vue3-promise-dialog";
+import { closeDialog } from "@/lib/dialog";
 import PitchHandWrapperVue from "@/components/pitch/PitchHandWrapper.vue";
 import { tKeys } from "@/lib/constants";
 

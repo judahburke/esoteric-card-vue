@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
-import { PromiseDialog } from "vue3-promise-dialog";
+import { PromiseDialog } from "@/lib/dialog";
 import { createI18n } from "vue-i18n";
 
 import App from "./App.vue";

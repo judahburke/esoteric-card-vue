@@ -34,8 +34,8 @@ import PitchAlertVue from "@/components/pitch/PitchAlert.vue";
 import { usePitchStore } from "@/stores/pitch";
 import { type Ref, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { openDialog } from "vue3-promise-dialog";
-import { DialogWrapper } from "vue3-promise-dialog";
+import DialogWrapper from "@/components/DialogWrapper.vue";
+import { openDialog } from "@/lib/dialog";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n({ useScope: "global" });
@@ -334,5 +334,3 @@ onMounted(() => config());
     </footer>
   </div>
 </template>
-
-<style></style>

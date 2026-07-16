@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
-import { DialogWrapper } from "vue3-promise-dialog";
+import DialogWrapper from "@/components/DialogWrapper.vue";
 import ModalLoading from "@/components/ModalLoading.vue";
 import Locale from "@/components/SelectLocale.vue";
 </script>

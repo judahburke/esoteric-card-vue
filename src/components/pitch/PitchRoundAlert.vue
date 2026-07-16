@@ -13,7 +13,7 @@ import type {
 } from "@/lib/pitch/interfaces";
 import { computed } from "vue";
 import { ref } from "vue";
-import { closeDialog } from "vue3-promise-dialog";
+import { closeDialog } from "@/lib/dialog";
 import ModalCardVue from "../ModalCard.vue";
 import { useI18n } from "vue-i18n";
 import type { PitchOptions } from "@/lib/pitch/types";

@@ -3,7 +3,7 @@ import { computed, ref } from "vue";
 import { tKeys } from "@/lib/constants";
 import { usePitchStore } from "@/stores/pitch";
 import ModalCardVue from "@/components/ModalCard.vue";
-import { closeDialog } from "vue3-promise-dialog";
+import { closeDialog } from "@/lib/dialog";
 import { storeToRefs } from "pinia";
 import { PitchIntelligence } from "@/lib/pitch/enums";
 
