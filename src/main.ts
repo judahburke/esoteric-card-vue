@@ -11,8 +11,8 @@ import "./assets/main.css";
 import en_US from "./assets/locales/en_US.json";
 import vn_VN from "./assets/locales/vn_VN.json";
 
+//TODO: use explicit type for Schema
 const i18n = createI18n<false>({
-  allowComposition: true,
   locale: "en_US",
   fallbackLocale: "en_US",
   messages: {
@@ -24,6 +24,9 @@ const i18n = createI18n<false>({
   // datetimeFormats: {
 
   // },
+  // pluralizationRules: {
+
+  // }
 });
 
 const app = createApp(App);
