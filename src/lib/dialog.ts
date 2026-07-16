@@ -1,5 +1,9 @@
-import {Component, shallowRef} from "vue";
-import {DefineComponent} from "@vue/runtime-core";
+import {
+    type App,
+    type Component,
+    type DefineComponent,
+    shallowRef
+} from "vue";
 
 export interface DialogInstance {
     comp?: any;
@@ -17,35 +21,41 @@ export const dialogRef = shallowRef<DialogInstance>();
  */
 export function closeDialog(data?: any) {
     if (data === undefined) {
-        data = dialogRef.value.comp.returnValue();
+        data = dialogRef.value?.comp.returnValue();
     }
-    dialogRef.value.resolve(data);
-    dialogRef.value = null;
+    dialogRef.value?.resolve(data);
+    dialogRef.value = undefined;
 }
 
 /**
  * Extracts the type of props from a component definition.
  */
-type PropsType<C extends DefineComponent<any, any, any>> = InstanceType<C>["$props"];
+type PropsType<C extends DefineComponent<any, any, any>>
+    = InstanceType<C>["$props"];
 
 /**
  * Extracts the return type of the dialog from the setup function.
  */
-type BindingReturnType<C extends DefineComponent<any, any, any>> = C extends DefineComponent<any, infer X, any> ?
-    (X extends { returnValue: () => infer Y } ? Y : never)
-    : never;
+type BindingReturnType<C extends DefineComponent<any, any, any>>
+    = C extends DefineComponent<any, infer X, any>
+        ? (X extends { returnValue: () => infer Y } ? Y : never)
+        : never;
 
 /**
  * Extracts the return type of the dialog from the methods.
  */
-type MethodReturnType<C extends DefineComponent<any, any, any, any, any>> = C extends DefineComponent<any, any, any, any, infer X> ?
-    (X extends { returnValue: () => infer Y } ? Y : never)
-    : never;
+type MethodReturnType<C extends DefineComponent<any, any, any, any, any>>
+    = C extends DefineComponent<any, any, any, any, infer X>
+        ? (X extends { returnValue: () => infer Y } ? Y : never)
+        : never;
 
 /**
  * Extracts the return type of the dialog either from the setup method or from the methods.
  */
-type ReturnType<C extends DefineComponent<any, any, any, any, any>> = BindingReturnType<C> extends never ? MethodReturnType<C> : BindingReturnType<C>;
+type ReturnType<C extends DefineComponent<any, any, any, any, any>>
+    = BindingReturnType<C> extends never
+        ? MethodReturnType<C>
+        : BindingReturnType<C>;
 
 /**
  * Opens a dialog.
@@ -54,7 +64,11 @@ type ReturnType<C extends DefineComponent<any, any, any, any, any>> = BindingRet
  * @param wrapper The dialog wrapper you want the dialog to open into.
  * @return A promise that resolves when the dialog is closed
  */
-export function openDialog<C extends DefineComponent<any, any, any, any, any>>(dialog: C, props?: PropsType<C>, wrapper: string = 'default'): Promise<ReturnType<C>> {
+export function openDialog<C extends DefineComponent<any, any, any, any, any>>(
+    dialog: C,
+    props?: PropsType<C>,
+    wrapper: string = 'default'
+): Promise<ReturnType<C>> {
     return new Promise(resolve => {
         dialogRef.value = {
             dialog,
@@ -66,8 +80,8 @@ export function openDialog<C extends DefineComponent<any, any, any, any, any>>(d
 }
 
 export const PromiseDialog = {
-    install: (app, options) => {
-        app.config.globalProperties.$close = (comp, alternateValue) => {
+    install: (app: any, _options?: any) => {
+        app.config.globalProperties.$close = (_comp: any, alternateValue: any) => {
             closeDialog(alternateValue);
         }
     }
