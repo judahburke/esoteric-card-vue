@@ -1,7 +1,9 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.node.json",
+  "extends": "@tsconfig/node24/tsconfig.json",
   "include": ["vite.config.*", "vitest.config.*", "cypress.config.*"],
+  /* Error has come from vscode */
   "compilerOptions": {
+    "verbatimModuleSyntax": true,
     "composite": true,
     "types": ["node"]
   }
