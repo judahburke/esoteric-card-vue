@@ -13,7 +13,8 @@ export interface DialogInstance {
     comp?: ComponentPublicInstance & { returnValue?: () => unknown};
     dialog: Component;
     wrapper: string;
-    props: unknown;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- idk how else to get it to work atm
+    props: any;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic type is erased once stored at rest; see openDialog()
     resolve: (data: any) => void;
 }
