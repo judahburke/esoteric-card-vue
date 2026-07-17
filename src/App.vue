@@ -30,7 +30,7 @@ import Locale from "@/components/SelectLocale.vue";
     </div>
   </div>
   <div class="hero-body">
-    <div class="content">
+    <div class="content container">
       <RouterView />
     </div>
   </div>
@@ -44,12 +44,3 @@ import Locale from "@/components/SelectLocale.vue";
   <DialogWrapper :transition-attrs="{ name: 'dialog' }"></DialogWrapper>
   <ModalLoading />
 </template>
-
-<style scoped>
-/*
-@media screen and (min-width: 1024px) {
-  #view {
-    min-height: calc(100vh - 7rem);
-  }
-} */
-</style>

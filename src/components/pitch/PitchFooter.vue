@@ -5,7 +5,7 @@ const emit = defineEmits(["play", "config", "exit"]);
 </script>
 
 <template>
-  <div class="level is-mobile" id="pitch-messages">
+  <div class="level is-mobile is-flex-wrap-wrap" id="pitch-messages">
     <button class="level-item button" @click="emit('play')">
       {{ $t(tKeys.label_play) }}
     </button>

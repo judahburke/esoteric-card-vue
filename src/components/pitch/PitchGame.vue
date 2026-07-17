@@ -304,7 +304,7 @@ onMounted(() => config());
 </script>
 
 <template>
-  <div id="pitch-game" class="container">
+  <div id="pitch-game">
     <header id="pitch-game-scoreboard" class="section box">
       <PitchScoreboardVue></PitchScoreboardVue>
     </header>
