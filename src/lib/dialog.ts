@@ -1,17 +1,20 @@
 import {
+    type App,
     type Component,
-    shallowRef
+    type ComponentPublicInstance,
+    shallowRef,
 } from 'vue';
 import type {
     ComponentProps,
-    ComponentExposed
+    ComponentExposed,
 } from 'vue-component-type-helpers';
 
 export interface DialogInstance {
-    comp?: any;
+    comp?: ComponentPublicInstance & { returnValue?: () => unknown};
     dialog: Component;
     wrapper: string;
-    props: any;
+    props: unknown;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic type is erased once stored at rest; see openDialog()
     resolve: (data: any) => void;
 }
 
@@ -21,9 +24,9 @@ export const dialogRef = shallowRef<DialogInstance>();
  * Closes the currently opened dialog, resolving the promise with the return value of the dialog, or with the given
  * data if any.
  */
-export function closeDialog(data?: any) {
+export function closeDialog(data?: unknown) {
     if (data === undefined) {
-        data = dialogRef.value?.comp.returnValue();
+        data = dialogRef.value?.comp?.returnValue?.();
     }
     dialogRef.value?.resolve(data);
     dialogRef.value = undefined;
@@ -57,8 +60,8 @@ export function openDialog<C extends Component>(
 }
 
 export const PromiseDialog = {
-    install: (app: any, _options?: any) => {
-        app.config.globalProperties.$close = (_comp: any, alternateValue: any) => {
+    install: (app: App, _options?: unknown) => {
+        app.config.globalProperties.$close = (_comp: unknown, alternateValue: unknown) => {
             closeDialog(alternateValue);
         }
     }

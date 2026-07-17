@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { PitchBidder, PitchCardFactory, PitchDeck } from "../classes";
+import { PitchBidder, PitchCardFactory } from "../classes";
 import { CardRankKey, CardSuitKey } from "@/lib/card/enums";
 import { CardError } from "@/lib/card/classes";
 

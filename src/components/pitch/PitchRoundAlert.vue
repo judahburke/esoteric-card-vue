@@ -110,7 +110,7 @@ const game = computed(() => {
   }
 });
 const teamsWithScore = computed(() => {
-  let teams: PitchTeam[] = [];
+  const teams: PitchTeam[] = [];
   if (props.calculation.greatestGame) {
     props.calculation.greatestGame.teams.forEach((t) => teams.push(t));
   }

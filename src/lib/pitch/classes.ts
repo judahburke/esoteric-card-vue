@@ -1645,7 +1645,7 @@ class PitchDealer
   private async retry<T>(
     max: number,
     promise: Promise<T>,
-    handle?: (reason: any) => void
+    handle?: (reason: unknown) => void
   ): Promise<T> {
     return await promise.catch(async (reason) => {
       if (max <= 0) {

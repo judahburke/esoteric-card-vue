@@ -1,5 +1,5 @@
-type MoveOptions = {};
+type MoveOptions = object;
 
-type CornersOptions = {};
+type CornersOptions = object;
 
 export type { MoveOptions, CornersOptions };

@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest"
 import { PitchCardFactory } from "../classes";
 
 describe("PitchCardSuit", () => {
-    var factory = new PitchCardFactory();
+    const factory = new PitchCardFactory();
     const HEARTS = factory.hearts;
     const CLUBS = factory.clubs;
     const SPADES = factory.spades;

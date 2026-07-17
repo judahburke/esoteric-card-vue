@@ -95,10 +95,10 @@ async function play() {
     if (error) {
       let messageParam = (error as Error).message ?? t(tKeys.errors.NA_500);
       if (error instanceof PitchError) {
-        let k = (error as PitchError).errorKey;
+        const k = (error as PitchError).errorKey;
         messageParam = t(tKeys.mapPitchError(k), [k]);
       } else if (error instanceof CardError) {
-        let k = (error as CardError).errorKey;
+        const k = (error as CardError).errorKey;
         messageParam = t(tKeys.mapCardError(k), [k]);
       }
       await openDialog(ModalAlertVue, {
@@ -233,7 +233,7 @@ async function promptForBid(
 ): Promise<
   IPitchBid<PitchCardRank, PitchCardSuit, PitchCard, PitchTeam, PitchBidder>
 > {
-  let intelligence = aiFactory.selectIntelligence(bidder.intelligence);
+  const intelligence = aiFactory.selectIntelligence(bidder.intelligence);
   if (intelligence) {
     return intelligence.decideBid(bidder, state);
   } else {
@@ -261,7 +261,7 @@ async function promptForPlay(
   bidder: PitchBidder,
   validation?: PitchPlayValidation
 ): Promise<PitchCard> {
-  let intelligence = aiFactory.selectIntelligence(bidder.intelligence);
+  const intelligence = aiFactory.selectIntelligence(bidder.intelligence);
   if (intelligence) {
     return intelligence.decidePlay(bidder, state);
   } else {
