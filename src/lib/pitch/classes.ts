@@ -389,7 +389,7 @@ class PitchTrick
       const sortedWaste = [...this.waste].sort(
         (a, b) => -a.card.compareWeight(b.card, leadSuit, trumpSuit)
       );
-      console.debug("[pitch] PitchTrick.getWinner", sortedWaste);
+      // console.debug("[pitch] PitchTrick.getWinner", sortedWaste);
       return sortedWaste[0];
     } else {
       return undefined;

@@ -1,9 +1,11 @@
 import {
-    type App,
     type Component,
-    type DefineComponent,
     shallowRef
-} from "vue";
+} from 'vue';
+import type {
+    ComponentProps,
+    ComponentExposed
+} from 'vue-component-type-helpers';
 
 export interface DialogInstance {
     comp?: any;
@@ -27,35 +29,10 @@ export function closeDialog(data?: any) {
     dialogRef.value = undefined;
 }
 
-/**
- * Extracts the type of props from a component definition.
- */
-type PropsType<C extends DefineComponent<any, any, any>>
-    = InstanceType<C>["$props"];
-
-/**
- * Extracts the return type of the dialog from the setup function.
- */
-type BindingReturnType<C extends DefineComponent<any, any, any>>
-    = C extends DefineComponent<any, infer X, any>
-        ? (X extends { returnValue: () => infer Y } ? Y : never)
-        : never;
-
-/**
- * Extracts the return type of the dialog from the methods.
- */
-type MethodReturnType<C extends DefineComponent<any, any, any, any, any>>
-    = C extends DefineComponent<any, any, any, any, infer X>
-        ? (X extends { returnValue: () => infer Y } ? Y : never)
-        : never;
-
-/**
- * Extracts the return type of the dialog either from the setup method or from the methods.
- */
-type ReturnType<C extends DefineComponent<any, any, any, any, any>>
-    = BindingReturnType<C> extends never
-        ? MethodReturnType<C>
-        : BindingReturnType<C>;
+type DialogReturnValue<C>
+    = ComponentExposed<C> extends { returnValue: () => infer Y }
+        ? Y
+        : unknown;
 
 /**
  * Opens a dialog.
@@ -64,11 +41,11 @@ type ReturnType<C extends DefineComponent<any, any, any, any, any>>
  * @param wrapper The dialog wrapper you want the dialog to open into.
  * @return A promise that resolves when the dialog is closed
  */
-export function openDialog<C extends DefineComponent<any, any, any, any, any>>(
+export function openDialog<C extends Component>(
     dialog: C,
-    props?: PropsType<C>,
+    props?: ComponentProps<C>,
     wrapper: string = 'default'
-): Promise<ReturnType<C>> {
+): Promise<DialogReturnValue<C>> {
     return new Promise(resolve => {
         dialogRef.value = {
             dialog,

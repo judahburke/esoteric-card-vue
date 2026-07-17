@@ -12,12 +12,12 @@ const props = defineProps<{
 /* refs */
 const cardIndex = ref(0);
 
-function select(card: PitchCard, index: number) {
+function select(card: PitchCard, index: number): void {
   cardIndex.value = index;
   closeDialog(card);
 }
 
-function returnValue() {
+function returnValue(): PitchCard | undefined {
   if (cardIndex.value < props.bidder.hand.length) {
     return props.bidder.hand[cardIndex.value];
   } else {

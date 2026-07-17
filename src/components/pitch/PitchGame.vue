@@ -140,12 +140,13 @@ async function alertOfTurn(
   if (aiFactory.selectIntelligence(bidder.intelligence)) {
     return true;
   } else {
-    return await openDialog(ModalAlertVue, {
+    const answer = await openDialog(ModalAlertVue, {
       titleKey: tKeys.title_turn_for,
       titleParams: [bidder.name],
       messageKey: tKeys.message_turn_for,
       messageParams: [bidder.name],
     });
+    return answer as boolean;
   }
 }
 async function alertOfTrickResult(
@@ -246,7 +247,7 @@ async function promptForBid(
     showMove.value = true;
     const bid = await openDialog(PitchBidPromptVue, { bidder }, "pitch-hand");
     showMove.value = false;
-    return bid;
+    return bid as IPitchBid<PitchCardRank, PitchCardSuit, PitchCard, PitchTeam, PitchBidder>;
   }
 }
 async function promptForPlay(
@@ -273,9 +274,9 @@ async function promptForPlay(
     }
     showMove.value = true;
     return await openDialog(PitchHandPromptVue, { bidder }, "pitch-hand").then(
-      (card: PitchCard) => {
+      (card) => {
         showMove.value = false;
-        return card;
+        return card as PitchCard;
       }
     );
   }
