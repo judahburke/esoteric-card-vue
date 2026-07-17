@@ -30,14 +30,8 @@ import Locale from "@/components/SelectLocale.vue";
     </div>
   </div>
   <div class="hero-body">
-    <div class="container">
-      <div class="columns">
-        <div class="column is-8-desktop is-offset-2-desktop">
-          <div class="content">
-            <RouterView />
-          </div>
-        </div>
-      </div>
+    <div class="content">
+      <RouterView />
     </div>
   </div>
   <div class="hero-foot">

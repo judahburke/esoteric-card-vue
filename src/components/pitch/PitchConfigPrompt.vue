@@ -156,6 +156,7 @@ function returnValue(): boolean {
     @close="exit"
   >
     <template #default>
+      <!-- Configure Players / Bidders Section-->
       <section
         id="state-table-bidders"
         :class="bidderCount > 0 ? 'section box' : 'is-hidden'"
@@ -179,7 +180,7 @@ function returnValue(): boolean {
               @change="e => setBidderName(index, (e.target as HTMLInputElement).value)"
             />
           </div>
-          <div class="column is-one-fourth">
+          <div class="column is-one-quarter">
             <div class="select is-small">
               <select
                 id="state-table-bidder-intelligence"
@@ -199,6 +200,8 @@ function returnValue(): boolean {
           </div>
         </div>
       </section>
+      
+      <!-- Configure Teams Section-->
       <section
         id="state-table-teams"
         :class="teamCount > 0 ? 'section box' : 'is-hidden'"
@@ -222,15 +225,17 @@ function returnValue(): boolean {
           </div>
         </div>
       </section>
+
+      <!-- Configure Options Section -->
       <section id="state-options" class="section box">
         <h3 class="subtitle">
           {{ $t(tKeys.pitch.subtitle_configuration_options) }}
         </h3>
-        <!-- verbosity <div class="tile is-parent is-12">
-          <div class="tile is-child is-6">
+        <!-- verbosity <div class="columns">
+          <div class="column">
             <label>{{ $t(tKeys.label_option_verbose) }}</label>
           </div>
-          <div class="tile is-child container">
+          <div class="column is-one-quarter">
             <div class="select is-small">
               <select id="state-options-verbose" v-model="isVerbosityEnabled">
                 <option
@@ -245,11 +250,11 @@ function returnValue(): boolean {
             </div>
           </div>
         </div> -->
-        <div class="tile is-parent is-12">
-          <div class="tile is-child is-6">
+        <div class="columns">
+          <div class="column">
             <label>{{ $t(tKeys.label_option_winning_score) }}</label>
           </div>
-          <div class="tile is-child container">
+          <div class="column is-one-quarter">
             <div class="select is-small">
               <select id="state-options-winning-score" v-model="winningScore">
                 <option
@@ -264,11 +269,11 @@ function returnValue(): boolean {
             </div>
           </div>
         </div>
-        <div class="tile is-parent is-12">
-          <div class="tile is-child is-6">
+        <div class="columns">
+          <div class="column">
             <label>{{ $t(tKeys.label_option_player_count) }}</label>
           </div>
-          <div class="tile is-child container">
+          <div class="column is-one-quarter">
             <div class="select is-small">
               <select id="state-options-bidder-count" v-model="bidderCount">
                 <option
@@ -283,11 +288,11 @@ function returnValue(): boolean {
             </div>
           </div>
         </div>
-        <div class="tile is-parent is-12">
-          <div class="tile is-child is-6">
+        <div class="columns">
+          <div class="column">
             <label>{{ $t(tKeys.label_option_team_count) }}</label>
           </div>
-          <div class="tile is-child container">
+          <div class="column is-one-quarter">
             <div class="select is-small">
               <select id="state-options-team-count" v-model="teamCount">
                 <option
@@ -302,11 +307,11 @@ function returnValue(): boolean {
             </div>
           </div>
         </div>
-        <div class="tile is-parent is-12">
-          <div class="tile is-child is-6">
+        <div class="columns">
+          <div class="column">
             <label>{{ $t(tKeys.label_option_bid_5) }}</label>
           </div>
-          <div class="tile is-child container">
+          <div class="column is-one-quarter">
             <div class="select is-small">
               <select id="state-options-enable-bid5" v-model="isBidFiveEnabled">
                 <option
@@ -321,11 +326,11 @@ function returnValue(): boolean {
             </div>
           </div>
         </div>
-        <div class="tile is-parent is-12">
-          <div class="tile is-child is-6">
+        <div class="columns">
+          <div class="column">
             <label>{{ $t(tKeys.label_option_bid_all_skip) }}</label>
           </div>
-          <div class="tile is-child container">
+          <div class="column is-one-quarter">
             <div class="select is-small">
               <select
                 id="state-options-enable-bid-all-skip"
@@ -343,11 +348,11 @@ function returnValue(): boolean {
             </div>
           </div>
         </div>
-        <div class="tile is-parent is-12">
-          <div class="tile is-child is-6">
+        <div class="columns">
+          <div class="column">
             <label>{{ $t(tKeys.label_option_play_trump_despite_lead) }}</label>
           </div>
-          <div class="tile is-child container">
+          <div class="column is-one-quarter">
             <div class="select is-small">
               <select
                 id="state-options-enable-trump-over-lead"
@@ -365,11 +370,11 @@ function returnValue(): boolean {
             </div>
           </div>
         </div>
-        <div class="tile is-parent is-12">
-          <div class="tile is-child is-6">
+        <div class="columns">
+          <div class="column">
             <label>{{ $t(tKeys.label_option_score_tied_game) }}</label>
           </div>
-          <div class="tile is-child">
+          <div class="column is-one-quarter">
             <div class="select is-small">
               <select
                 id="state-options-enable-score-tied-game"
@@ -387,11 +392,11 @@ function returnValue(): boolean {
             </div>
           </div>
         </div>
-        <div class="tile is-parent is-12">
-          <div class="tile is-child is-6">
+        <div class="columns">
+          <div class="column">
             <label>{{ $t(tKeys.label_option_shuffle_count) }}</label>
           </div>
-          <div class="tile is-child container">
+          <div class="column is-one-quarter">
             <div class="select is-small">
               <select id="state-options-shuffle-count" v-model="shuffleCount">
                 <option
@@ -406,11 +411,11 @@ function returnValue(): boolean {
             </div>
           </div>
         </div>
-        <!-- cut count <div class="tile is-parent is-12">
-          <div class="tile is-child is-6">
+        <!-- cut count <div class="columns">
+          <div class="column">
             <label>{{ $t(tKeys.label_option_cut_count_min) }}</label>
           </div>
-          <div class="tile is-child container">
+          <div class="column is-one-quarter">
             <div class="select is-small">
               <select id="state-options-cut-min" v-model="cutMinimum">
                 <option
